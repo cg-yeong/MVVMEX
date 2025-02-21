@@ -26,9 +26,8 @@ let project = Project(
                 Module.Core.Networking.toTargetDependency,
                 Module.Domain.ProfileDomain.toTargetDependency,
                 Module.Feature.BaseFeature.toTargetDependency,
+
 //                Module.Feature.ProfileFeature.toTargetDependency,
-//                Module.Feature.MessageBoxFeature.toTargetDependency,
-//                Module.Feature.ChattingFeature.toTargetDependency
             ]
         ),
         .target(

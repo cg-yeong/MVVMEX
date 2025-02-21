@@ -56,7 +56,12 @@ public struct CircleThumbnail<ViewModel: ProfileInterface>: View {
         AsyncImage(url: URL(string: member.picture)) { image in
             image.resizable()
         } placeholder: {
-            ProgressView()
+            let wooeng = UIImage(named: "wooeng_demo")
+            if wooeng != nil {
+                Image(uiImage: UIImage(named: "wooeng_demo")!)
+            } else {
+                ProgressView()
+            }
         }
         .frame(width: 240, height: 240)
         .clipShape(Circle())

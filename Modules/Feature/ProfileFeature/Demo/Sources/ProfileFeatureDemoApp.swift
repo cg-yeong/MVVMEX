@@ -13,6 +13,8 @@ import ProfileDomainTesting
 import ProfileTesting
 import ProfileFeature
 
+import BaseFeatureInterface
+
 @main
 struct DemoApp: SwiftUI.App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -20,16 +22,34 @@ struct DemoApp: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
             let mockUsecase = MockMemberProfileUsecaseImpl()
-            let mockVM = ProfileViewModel(profileUsecase: mockUsecase)
+            let mockVM = ProfileViewModel(profileUsecase: mockUsecase, coordinator: MockCoordinator())
             CircleThumbnail(viewModel: mockVM)
         }
     }
-
-    
 }
 
-//class FeatureModule {
-//    static func profileBuild() -> some View {
-//        let repo = F
-//    }
-//}
+class MockCoordinator: ObservableObject, CoordinatorInterface {
+    init() {}
+
+    public var path: [BaseFeatureInterface.FeaturePages] = []
+
+    public func push(_ destination: BaseFeatureInterface.FeaturePages) {
+        path.append(destination)
+    }
+
+    public func popToRoot() {
+        path.removeAll()
+    }
+
+    public func pop() {
+        path.removeLast()
+    }
+
+    public func remove(_ page: FeaturePages) {
+        path.removeAll(where: { $0 == page })
+    }
+
+    public func set(paths: [FeaturePages]) {
+        path = paths
+    }
+}
