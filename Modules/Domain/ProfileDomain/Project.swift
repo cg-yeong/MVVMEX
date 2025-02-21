@@ -12,7 +12,9 @@ import ProjectDescriptionHelpers
 let project = Project.module(
     name: "ProfileDomain",
     targets: [
-        .interface(module: "ProfileDomainInterface"),
+        .interface(module: "ProfileDomainInterface", dependencies: [
+            TargetDependency.SPM.SwiftyJSON
+        ]),
         .implements(module: "ProfileDomain", dependencies: [
             .project(target: "ProfileDomainInterface", path: .relativeToDomain("ProfileDomain")),
             .project(target: "NetworkingInterface", path: .relativeToCore("Networking"))

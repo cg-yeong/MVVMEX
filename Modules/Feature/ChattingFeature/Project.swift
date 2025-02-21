@@ -13,9 +13,11 @@ let chatting: String = Module.Feature.ChattingFeature.rawValue
 let project = Project.module(
     name: chatting,
     targets: [
-        .interface(module: "ChattingInterface"),
+        .interface(module: "ChattingInterface", dependencies: [
+            .project(target: "BaseFeatureInterface", path: .relativeToFeature("BaseFeature"))
+        ]),
         .implements(module: "ChattingFeature", dependencies: [
-            .project(target: "ChattingInterface", path: .relativeToFeature("ChattingFeature"))
+            .project(target: "ChattingInterface", path: .relativeToFeature("ChattingFeature")),
         ]),
 //        .testing(module: "ChattingTesting", dependencies: [
 //            .project(target: "ChattingInterface", path: .relativeToFeature("Chatting"))

@@ -9,10 +9,10 @@ import Foundation
 import SwiftyJSON
 
 public protocol FetchMemberProfileUsecase {
-    func fetchMemberProfile() async throws -> JSON
+    func fetchMemberProfile() async throws -> Member
 }
 
 public protocol MemberProfileRepository {
-    func fetchMemberInfo() async throws -> Data
+    func fetchMemberInfo() async throws -> JSON
 }
 

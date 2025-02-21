@@ -8,13 +8,25 @@
 @preconcurrency import ProjectDescription
 
 public enum Module {
-    public enum Core {
+    public enum Core: String {
         public static let ProfileKit: TargetDependency = .project(target: "ProfileKit", path: .relativeToCore("ProfileKit"))
+        case Networking
+
+        public var toTargetDependency: TargetDependency {
+            .project(target: self.rawValue, path: .relativeToCore(self.rawValue))
+        }
     }
 
-//    public static let BaseFeature: TargetDependency = .project(target: "BaseFeature", path: .relativeToSections("Feature"))
+    public enum Domain: String {
+        case ProfileDomain
+
+        public var toTargetDependency: TargetDependency {
+            .project(target: self.rawValue, path: .relativeToDomain(self.rawValue))
+        }
+    }
+
     public enum Feature: String {
-        case CoordinatorFeature
+//        case CoordinatorFeature
         case BaseFeature
 
         case ProfileFeature

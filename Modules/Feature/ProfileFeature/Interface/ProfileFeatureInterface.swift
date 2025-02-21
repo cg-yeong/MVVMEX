@@ -8,8 +8,8 @@
 import Foundation
 import Combine
 import ProfileDomainInterface
+import BaseFeatureInterface
 
-public protocol ProfileInterface: ObservableObject {
-    var member: Member { get }
-    func fetchMemberInfo() async
+public protocol ProfileInterface {
+    func backToRoot()
 }

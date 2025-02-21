@@ -13,10 +13,13 @@ let project = Project.module(
     targets: [
         .interface(module: "BaseFeatureInterface"),
         .implements(module: "BaseFeature", dependencies: [
-            .project(target: "BaseFeatureInterface", path: .relativeToFeature("BaseFeature"))
-//            Module.Feature.Profile.toTargetDependency,
-//            Module.Feature.MessageBox.toTargetDependency,
-//            Module.Feature.Chatting.toTargetDependency
+            .project(target: "BaseFeatureInterface", path: .relativeToFeature("BaseFeature")),
+            
+            Module.Feature.ProfileFeature.toTargetDependency,
+            Module.Feature.MessageBoxFeature.toTargetDependency,
+            Module.Feature.ChattingFeature.toTargetDependency,
+
+            Module.Domain.ProfileDomain.toTargetDependency,
         ])
     ]
 )

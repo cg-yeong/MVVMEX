@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-public enum FeaturePages: CaseIterable, Equatable {
+public enum FeaturePages: Hashable, Codable {
 //    case root
     case profile
     case messageBox
@@ -18,15 +18,25 @@ public enum FeaturePages: CaseIterable, Equatable {
     case webView
 }
 
-public protocol CoordinatorInterface {
+public protocol CoordinatorInterface: AnyObject {
     var path: [FeaturePages] { get }
     func push(_ destination: FeaturePages)
     func popToRoot()
     func pop()
-    func remove(_ condition: Bool)
+    func remove(_ page: FeaturePages)
     func set(paths: [FeaturePages])
+}
+
+public protocol DependencyInjectable: AnyObject {
+    associatedtype Container
+    func getContainer() -> Container
 }
 
 public protocol RoutableInterface: AnyObject {
     var routePathPublisher: PassthroughSubject<FeaturePages, Never> { get }
 }
+
+public protocol RoutePathListener: AnyObject {
+    func onReceivePath(_ page: FeaturePages)
+}
+

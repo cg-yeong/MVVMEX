@@ -17,7 +17,6 @@ let project = Project.module(
             .project(target: "BaseFeatureInterface", path: .relativeToFeature("BaseFeature"))
         ]),
         .implements(module: "MessageBoxFeature", dependencies: [
-            .project(target: "BaseFeature", path: .relativeToFeature("BaseFeature")),
 
             .project(target: "MessageBoxInterface", path: .relativeToFeature("MessageBoxFeature"))
         ]),

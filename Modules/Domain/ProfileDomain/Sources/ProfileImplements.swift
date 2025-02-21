@@ -9,27 +9,35 @@ import Foundation
 import ProfileDomainInterface
 import SwiftyJSON
 
+/// Model : JSON -> toModel()
 public struct FetchMemberProfileUsecaseImpl: FetchMemberProfileUsecase {
+    
     private let profileRepository: MemberProfileRepository
 
     public init(profileRepository: MemberProfileRepository) {
         self.profileRepository = profileRepository
     }
 
-    public func fetchMemberProfile() async throws -> JSON {
+    public func fetchMemberProfile() async throws -> Member {
         let data = try await profileRepository.fetchMemberInfo()
-        return try JSON(data: data)
+        let name: String = data["result"][0]["name"]["first"].stringValue
+        let picture: String = data["result"][0]["picture"]["large"].stringValue
+
+        // toModel
+        return Member(name: name, picture: picture)
     }
 }
 
-final class MemberProfileRepositoryImpl: MemberProfileRepository {
-    func fetchMemberInfo() async throws -> Data {
-        let (data, response) = try await URLSession.shared.data(from: URL(string: "")!)
+/// JSON 으로 MemberEntity 대체
+final public class MemberProfileRepositoryImpl: MemberProfileRepository {
+    public init() {}
+    public func fetchMemberInfo() async throws -> JSON {
+        let (data, response) = try await URLSession.shared.data(from: URL(string: "https://randomuser.me/api")!)
         if let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode != 200 {
             print("StatusCode: \(statusCode)")
             throw URLError(.unknown)
         }
 
-        return data
+        return try JSON(data: data)
     }
 }
