@@ -9,20 +9,33 @@
 import Foundation
 import SwiftUI
 import ProfileInterface
+import ProfileDomainInterface
+import Combine
 
-class ProfileViewModel: ObservableObject, ProfileInterface {
-
-    /// 
-    func fetchMemberNumberList(count: Int = 10) -> [Int] {
-        let random10 = Array(1...100).shuffled().prefix(10)
-        return Array(random10)
+@MainActor
+public class ProfileViewModel: ProfileInterface {
+    @Published private(set) public var member: Member = Member.default {
+        willSet {
+            print("member: \(newValue)")
+        }
     }
 
-    ///
-    func fetchMemberInfo(number: Int) -> Member {
+    private var profileUsecase: FetchMemberProfileUsecase
 
-        return Member(sex: "men", memNo: 1, name: "")
+    public init(profileUsecase: FetchMemberProfileUsecase) {
+        self.profileUsecase = profileUsecase
     }
-    
 
+    public func fetchMemberInfo() async {
+        do {
+            let json = try await profileUsecase.fetchMemberProfile()
+            self.member = Member(name: json["name"].stringValue,
+                                 picture: json["picture"].stringValue)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    public func getMember() -> Member {
+        return member
+    }
 }

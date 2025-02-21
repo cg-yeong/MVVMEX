@@ -14,6 +14,7 @@ public enum Module {
 
 //    public static let BaseFeature: TargetDependency = .project(target: "BaseFeature", path: .relativeToSections("Feature"))
     public enum Feature: String {
+        case CoordinatorFeature
         case BaseFeature
 
         case ProfileFeature

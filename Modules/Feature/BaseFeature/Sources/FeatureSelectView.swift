@@ -7,13 +7,30 @@
 //
 
 import SwiftUI
+import BaseFeatureInterface
 
 public struct FeatureSelectView: View {
-    public init() {}
+
+    var coordinator: CoordinatorInterface = Coordinator()
+
+    public init() {
+
+    }
+
+    var bindingPath: Binding<[FeaturePages]> {
+        Binding {
+            coordinator.path
+        } set: { newPath in
+            coordinator.set(paths: newPath)
+        }
+    }
+
+
     public var body: some View {
         VStack {
             Button {
                 // coordinator.open profile
+                coordinator.push(.profile)
                 print("Coordinator open Profile Feature")
             } label: {
                 Text("Profile")
@@ -27,6 +44,7 @@ public struct FeatureSelectView: View {
 
             Button {
                 // coordinator.open profile
+                coordinator.push(.messageBox)
                 print("Coordinator open MessageBox Feature")
             } label: {
                 Text("MessageBox")
@@ -40,6 +58,7 @@ public struct FeatureSelectView: View {
 
             Button {
                 // coordinator.open profile
+                coordinator.push(.chatting)
                 print("Coordinator open Chatting Feature")
             } label: {
                 Text("Chatting")
@@ -51,6 +70,25 @@ public struct FeatureSelectView: View {
             }
             .padding(.horizontal, 12)
         }
+
+        NavigationStack(path: bindingPath) {
+
+        }
+        .navigationDestination(for: FeaturePages.self) { page in
+            switch page {
+            case .profile:
+                CircleThumbnail()
+            case .messageBox:
+                Text("MessageBox")
+            case .chatting:
+                Text("Chatting")
+            case .webView:
+                SUWebView()
+            default:
+                EmptyView().hidden()
+            }
+        }
+
     }
 }
 

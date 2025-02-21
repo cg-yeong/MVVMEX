@@ -1,6 +1,12 @@
 import UIKit
 import SwiftUI
 
+import ProfileInterface
+import ProfileFeature
+import ProfileDomainTesting
+import ProfileTesting
+
+
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
@@ -28,19 +34,5 @@ final class SceneDelegate: NSObject, UIWindowSceneDelegate {
 
     func sceneDidEnterBackground(_ scene: UIScene) {
         print("[Scene] did background")
-    }
-}
-
-@main
-struct DemoApp: SwiftUI.App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-
-    var body: some Scene {
-        WindowGroup {
-            Text("App_ContentView")
-                .onAppear {
-                    print("onAppear")
-                }
-        }
     }
 }
