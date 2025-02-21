@@ -12,13 +12,17 @@ import ProfileDomainInterface
 import ProfileDomain
 import ProfileInterface
 import ProfileFeature
+import ChattingInterface
+import ChattingFeature
+import MessageBoxInterface
+import MessageBoxFeature
 
 final public class Coordinator: ObservableObject, CoordinatorInterface, DependencyInjectable {
     public func getContainer() -> DIContainer {
         return container
     }
 
-    let container: DIContainer = DIContainer()
+    let container: DIContainer = .shared
 
     @Published public var path: [BaseFeatureInterface.FeaturePages] = [] {
         willSet {
@@ -43,6 +47,7 @@ final public class Coordinator: ObservableObject, CoordinatorInterface, Dependen
     }
 
     public func start() {
+        // Profile
         container.register(MemberProfileRepository.self) {
             MemberProfileRepositoryImpl()
         }
@@ -51,6 +56,16 @@ final public class Coordinator: ObservableObject, CoordinatorInterface, Dependen
         }
         container.register(ProfileInterface.self) {
             ProfileViewModel(profileUsecase: self.container.resolve(FetchMemberProfileUsecase.self)!, coordinator: self)
+        }
+
+        // Message
+        container.register(ChattingInterface.self) {
+            ChattingViewModel(coordinator: self)
+        }
+
+        // MessageBox
+        container.register(MessageBoxInterface.self) {
+            MessageBoxViewModel(coordinator: self)
         }
     }
 
@@ -88,12 +103,32 @@ public struct CoordinatorModifier: ViewModifier {
             .navigationDestination(for: FeaturePages.self) { page in
                 switch page {
                 case .profile:
-                    let viewModel = coordinator.container.resolveProfileViewModel(coordinator: coordinator)
-                    CircleThumbnail(viewModel: viewModel)
+                    if let viewModel = coordinator.container.resolve(ProfileInterface.self) as? ProfileViewModel {
+                        CircleThumbnail(viewModel: viewModel)
+                            .navigationBarBackButtonHidden()
+                            .navigationTitle("")
+                            .navigationBarHidden(true)
+                    } else {
+                        fatalError()
+                    }
                 case .messageBox:
-                    Text("message box")
+                    if let viewModel = coordinator.container.resolve(ChattingInterface.self) as? ChattingViewModel {
+                        ChattingWithOther(viewModel: viewModel)
+                            .navigationBarBackButtonHidden()
+                            .navigationTitle("")
+                            .navigationBarHidden(true)
+                    } else {
+                        fatalError()
+                    }
                 case .chatting:
-                    Text("Chatting")
+                    if let viewModel = coordinator.container.resolve(MessageBoxInterface.self) as? MessageBoxViewModel {
+                        MessageBoxView(viewModel: viewModel)
+                            .navigationBarBackButtonHidden()
+                            .navigationTitle("")
+                            .navigationBarHidden(true)
+                    } else {
+                        fatalError()
+                    }
                 default:
                     Color.blue.frame(width: 200, height: 200).opacity(0.5)
                 }

@@ -11,6 +11,7 @@ import BaseFeatureInterface
 import ProfileFeature
 import ProfileDomainInterface
 import ProfileDomain
+import ChattingFeature
 
 public protocol DependencyInjectable: AnyObject {
     associatedtype Container
@@ -18,6 +19,9 @@ public protocol DependencyInjectable: AnyObject {
 }
 
 public class DIContainer {
+
+    static let shared = DIContainer()
+
     private var services: [String: Any] = [:]
 
     public func register<T>(_ type: T.Type, factory: @escaping () -> T) {
