@@ -31,7 +31,16 @@ public struct ChattingWithOther<ViewModel: ChattingInterface>: View {
         }
         .padding(.horizontal, 12)
 
-
+        Button {
+            viewModel.back()
+        } label: {
+            Text("ChattingView; go back")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(.blue.opacity(0.5))
+                .clipShape(Capsule())
+        }
+        .padding(.horizontal, 12)
 
     }
 }

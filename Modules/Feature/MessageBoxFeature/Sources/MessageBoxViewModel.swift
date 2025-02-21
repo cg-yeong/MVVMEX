@@ -25,6 +25,6 @@ public class MessageBoxViewModel: MessageBoxInterface {
     }
 
     public func goWeb() {
-        coordinator.push(.webView)
+        coordinator.push(.webView("newList"))
     }
 }

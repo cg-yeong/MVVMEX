@@ -15,7 +15,7 @@ public enum FeaturePages: Hashable, Codable {
     case profile
     case messageBox
     case chatting
-    case webView
+    case webView(String)
 
     public var rawValue: String {
         switch self {
@@ -25,8 +25,8 @@ public enum FeaturePages: Hashable, Codable {
             "> messageBox"
         case .chatting:
             "> chatting"
-        case .webView:
-            "> webview"
+        case .webView(let detail):
+            "> webview_\(detail)"
         }
     }
 }

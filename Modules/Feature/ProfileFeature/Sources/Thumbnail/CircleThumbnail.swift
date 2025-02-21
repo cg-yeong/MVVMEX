@@ -21,7 +21,7 @@ public struct CircleThumbnail<ViewModel: ProfileInterface>: View {
 
     public var body: some View {
         VStack {
-            goBack
+            goBackAndWeb
 
             profileImage
 
@@ -37,11 +37,22 @@ public struct CircleThumbnail<ViewModel: ProfileInterface>: View {
     }
 
     @ViewBuilder
-    var goBack: some View {
+    var goBackAndWeb: some View {
         Button {
             viewModel.backToRoot()
         } label: {
             Text("GO BackBaek")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(.blue.opacity(0.5))
+                .clipShape(Capsule())
+        }
+        .padding(.horizontal, 12)
+
+        Button {
+            viewModel.openWeb()
+        } label: {
+            Text("GO Web")
                 .padding()
                 .frame(maxWidth: .infinity)
                 .background(.blue.opacity(0.5))

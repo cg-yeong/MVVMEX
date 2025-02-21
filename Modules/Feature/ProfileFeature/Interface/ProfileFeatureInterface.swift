@@ -15,4 +15,5 @@ public protocol ProfileInterface {
 
     func fetchMemberInfo() async -> Member
     func goChat(with member: Int)
+    func openWeb()
 }

@@ -40,4 +40,8 @@ public class ProfileViewModel: ProfileInterface {
     public func goChat(with member: Int) {
         coordinator.push(.chatting)
     }
+
+    public func openWeb() {
+        coordinator.push(.webView("alim"))
+    }
 }
