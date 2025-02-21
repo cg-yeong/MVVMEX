@@ -18,11 +18,8 @@ import MessageBoxInterface
 import MessageBoxFeature
 
 final public class Coordinator: ObservableObject, CoordinatorInterface, DependencyInjectable {
-    public func getContainer() -> DIContainer {
-        return container
-    }
 
-    let container: DIContainer = .shared
+    public let container: DIContainer = .shared
 
     @Published public var path: [BaseFeatureInterface.FeaturePages] = [] {
         willSet {
@@ -103,7 +100,7 @@ public struct CoordinatorModifier: ViewModifier {
             .navigationDestination(for: FeaturePages.self) { page in
                 switch page {
                 case .profile:
-                    if let viewModel = coordinator.container.resolve(ProfileInterface.self) as? ProfileViewModel {
+                    if let viewModel = coordinator.container.resolve((any ProfileInterface).self) as? ProfileViewModel {
                         CircleThumbnail(viewModel: viewModel)
                             .navigationBarBackButtonHidden()
                             .navigationTitle("")
@@ -111,7 +108,7 @@ public struct CoordinatorModifier: ViewModifier {
                     } else {
                         fatalError()
                     }
-                case .messageBox:
+                case .chatting:
                     if let viewModel = coordinator.container.resolve(ChattingInterface.self) as? ChattingViewModel {
                         ChattingWithOther(viewModel: viewModel)
                             .navigationBarBackButtonHidden()
@@ -120,7 +117,7 @@ public struct CoordinatorModifier: ViewModifier {
                     } else {
                         fatalError()
                     }
-                case .chatting:
+                case .messageBox:
                     if let viewModel = coordinator.container.resolve(MessageBoxInterface.self) as? MessageBoxViewModel {
                         MessageBoxView(viewModel: viewModel)
                             .navigationBarBackButtonHidden()
@@ -129,6 +126,11 @@ public struct CoordinatorModifier: ViewModifier {
                     } else {
                         fatalError()
                     }
+                case .webView:
+                    SUWebView(coordinator: coordinator)
+                        .navigationBarBackButtonHidden()
+                        .navigationTitle("")
+                        .navigationBarHidden(true)
                 default:
                     Color.blue.frame(width: 200, height: 200).opacity(0.5)
                 }

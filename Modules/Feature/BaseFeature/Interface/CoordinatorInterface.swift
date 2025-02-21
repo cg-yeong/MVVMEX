@@ -16,6 +16,19 @@ public enum FeaturePages: Hashable, Codable {
     case messageBox
     case chatting
     case webView
+
+    public var rawValue: String {
+        switch self {
+        case .profile:
+            "> profile"
+        case .messageBox:
+            "> messageBox"
+        case .chatting:
+            "> chatting"
+        case .webView:
+            "> webview"
+        }
+    }
 }
 
 public protocol CoordinatorInterface: AnyObject {
@@ -25,18 +38,5 @@ public protocol CoordinatorInterface: AnyObject {
     func pop()
     func remove(_ page: FeaturePages)
     func set(paths: [FeaturePages])
-}
-
-public protocol DependencyInjectable: AnyObject {
-    associatedtype Container
-    func getContainer() -> Container
-}
-
-public protocol RoutableInterface: AnyObject {
-    var routePathPublisher: PassthroughSubject<FeaturePages, Never> { get }
-}
-
-public protocol RoutePathListener: AnyObject {
-    func onReceivePath(_ page: FeaturePages)
 }
 

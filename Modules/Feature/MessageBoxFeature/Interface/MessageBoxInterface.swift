@@ -9,4 +9,6 @@ import Foundation
 
 public protocol MessageBoxInterface {
     func backToRoot()
+    func goChat(with member: Int)
+    func goWeb()
 }

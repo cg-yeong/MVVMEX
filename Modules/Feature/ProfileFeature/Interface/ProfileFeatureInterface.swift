@@ -12,4 +12,7 @@ import BaseFeatureInterface
 
 public protocol ProfileInterface {
     func backToRoot()
+
+    func fetchMemberInfo() async -> Member
+    func goChat(with member: Int)
 }

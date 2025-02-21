@@ -19,7 +19,7 @@ public class ChattingViewModel: ChattingInterface {
         self.coordinator = coordinator
     }
 
-    public func backToRoot() {
-        coordinator.popToRoot()
+    public func back() {
+        coordinator.pop()
     }
 }

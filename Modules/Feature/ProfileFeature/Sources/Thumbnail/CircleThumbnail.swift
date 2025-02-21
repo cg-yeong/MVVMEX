@@ -12,7 +12,7 @@ import ProfileInterface
 import ProfileDomainInterface
 
 public struct CircleThumbnail<ViewModel: ProfileInterface>: View {
-
+    @State private var member: Member = .default
     private var viewModel: ViewModel
 
     public init(viewModel: ViewModel) {
@@ -21,18 +21,39 @@ public struct CircleThumbnail<ViewModel: ProfileInterface>: View {
 
     public var body: some View {
         VStack {
+            goBack
+
             profileImage
+
+            profileName
+
+            goChat
         }
         .onAppear {
-
+            Task { @MainActor in
+                member = await viewModel.fetchMemberInfo()
+            }
         }
     }
 
+    @ViewBuilder
+    var goBack: some View {
+        Button {
+            viewModel.backToRoot()
+        } label: {
+            Text("GO BackBaek")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(.blue.opacity(0.5))
+                .clipShape(Capsule())
+        }
+        .padding(.horizontal, 12)
+    }
 
     @ViewBuilder
     var profileImage: some View {
         // [](https://randomuser.me/api/portraits/women/70.jpg)
-        AsyncImage(url: URL(string: "https://randomuser.me/api/portraits/women/70.jpg")) { image in
+        AsyncImage(url: URL(string: member.picture)) { image in
             image.resizable()
         } placeholder: {
             ProgressView()
@@ -41,8 +62,26 @@ public struct CircleThumbnail<ViewModel: ProfileInterface>: View {
         .clipShape(Circle())
         .overlay(Circle().stroke(Color.yellow, lineWidth: 6))
         .shadow(radius: 20, y: 1)
-        .onTapGesture {
-            viewModel.backToRoot()
+        .contentShape(Rectangle())
+    }
+
+    @ViewBuilder
+    var profileName: some View {
+        Text(member == .default ? " " : member.name)
+            .font(.largeTitle)
+    }
+
+    @ViewBuilder
+    var goChat: some View {
+        Button {
+            viewModel.goChat(with: 0)
+        } label: {
+            Text("GO Chatting")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(.blue.opacity(0.5))
+                .clipShape(Capsule())
         }
+        .padding(.horizontal, 12)
     }
 }

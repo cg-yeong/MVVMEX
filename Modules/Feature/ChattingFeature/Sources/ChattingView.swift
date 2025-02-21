@@ -13,7 +13,7 @@ import BaseFeatureInterface
 import ChattingInterface
 
 public struct ChattingWithOther<ViewModel: ChattingInterface>: View {
-    
+
     private var viewModel: ViewModel
 
     public init(viewModel: ViewModel) {
@@ -21,15 +21,17 @@ public struct ChattingWithOther<ViewModel: ChattingInterface>: View {
     }
     public var body: some View {
         Button {
-            viewModel.backToRoot()
+            viewModel.back()
         } label: {
-            Text("ChattingView")
+            Text("ChattingView; go back")
                 .padding()
                 .frame(maxWidth: .infinity)
                 .background(.blue.opacity(0.5))
                 .clipShape(Capsule())
         }
         .padding(.horizontal, 12)
+
+
 
     }
 }

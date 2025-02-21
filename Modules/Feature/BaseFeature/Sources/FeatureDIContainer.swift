@@ -15,7 +15,7 @@ import ChattingFeature
 
 public protocol DependencyInjectable: AnyObject {
     associatedtype Container
-    func getContainer() -> Container
+    var container: Container { get }
 }
 
 public class DIContainer {

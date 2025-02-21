@@ -23,18 +23,21 @@ public class ProfileViewModel: ProfileInterface {
         self.coordinator = coordinator
     }
 
-    public func fetchMemberInfo() {
-        Task { 
-            do {
-                let member = try await profileUsecase.fetchMemberProfile()
-
-            } catch {
-                print(error.localizedDescription)
-            }
+    public func fetchMemberInfo() async -> Member {
+        do {
+            let member = try await profileUsecase.fetchMemberProfile()
+            return member
+        } catch {
+            print(error.localizedDescription)
+            return .default
         }
     }
 
     public func backToRoot() {
-        coordinator.popToRoot()
+        coordinator.pop()
+    }
+
+    public func goChat(with member: Int) {
+        coordinator.push(.chatting)
     }
 }

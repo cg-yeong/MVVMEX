@@ -17,6 +17,14 @@ public class MessageBoxViewModel: MessageBoxInterface {
     }
 
     public func backToRoot() {
-        coordinator.popToRoot()
+        coordinator.pop()
+    }
+
+    public func goChat(with member: Int) {
+        coordinator.push(.chatting)
+    }
+
+    public func goWeb() {
+        coordinator.push(.webView)
     }
 }

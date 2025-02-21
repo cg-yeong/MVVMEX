@@ -20,6 +20,7 @@ public struct FeatureSelectView: View {
     public init() {}
 
     public var body: some View {
+        Text(coordinator.path.map { $0.rawValue }.joined())
 
         NavigationStack(path: coordinator.bindingPath) {
             VStack {

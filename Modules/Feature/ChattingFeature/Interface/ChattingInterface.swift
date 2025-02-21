@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol ChattingInterface {
-    func backToRoot()
+    func back()
 }

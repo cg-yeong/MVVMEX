@@ -7,13 +7,28 @@
 //
 
 import SwiftUI
+import BaseFeatureInterface
+import Combine
 
 struct SUWebView: View {
+    var coordinator: any CoordinatorInterface
     var body: some View {
-        Text("WebView")
+        Color.red.opacity(0.5)
+            .overlay {
+                Button {
+                    coordinator.push(.profile)
+                } label: {
+                    Text("GO Profile")
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(.blue.opacity(0.5))
+                        .clipShape(Capsule())
+                }
+                .padding(.horizontal, 12)
+            }
+            .onTapGesture {
+                coordinator.pop()
+            }
     }
-}
 
-#Preview {
-    SUWebView()
 }

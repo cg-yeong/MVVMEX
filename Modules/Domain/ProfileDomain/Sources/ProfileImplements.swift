@@ -20,8 +20,8 @@ public struct FetchMemberProfileUsecaseImpl: FetchMemberProfileUsecase {
 
     public func fetchMemberProfile() async throws -> Member {
         let data = try await profileRepository.fetchMemberInfo()
-        let name: String = data["result"][0]["name"]["first"].stringValue
-        let picture: String = data["result"][0]["picture"]["large"].stringValue
+        let name: String = data["results"][0]["name"]["first"].stringValue
+        let picture: String = data["results"][0]["picture"]["large"].stringValue
 
         // toModel
         return Member(name: name, picture: picture)
