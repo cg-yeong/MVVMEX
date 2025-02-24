@@ -15,12 +15,6 @@ let project = Project.module(
         .implements(module: "BaseFeature", dependencies: [
             .project(target: "BaseFeatureInterface", path: .relativeToFeature("BaseFeature")),
             .project(target: "CoordinatorFeatureInterface", path: .relativeToFeature("CoordinatorFeature")),
-
-            Module.Feature.ProfileFeature.toTargetDependency,
-            Module.Feature.MessageBoxFeature.toTargetDependency,
-            Module.Feature.ChattingFeature.toTargetDependency,
-
-            Module.Domain.ProfileDomain.toTargetDependency,
         ])
     ]
 )
