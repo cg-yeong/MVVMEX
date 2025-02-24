@@ -7,12 +7,17 @@
 //
 
 import SwiftUI
-import BaseFeatureInterface
+import CoordinatorFeatureInterface
 import Combine
 
-struct SUWebView: View {
+public struct SUWebView: View {
     var coordinator: any CoordinatorInterface
-    var body: some View {
+
+    public init(coordinator: any CoordinatorInterface) {
+        self.coordinator = coordinator
+    }
+
+    public var body: some View {
         Color.red.opacity(0.5)
             .overlay {
                 VStack {

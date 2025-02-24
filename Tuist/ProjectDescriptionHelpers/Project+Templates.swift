@@ -8,8 +8,7 @@
 @preconcurrency import ProjectDescription
 
 public enum Module {
-    public enum Core: String {
-        public static let ProfileKit: TargetDependency = .project(target: "ProfileKit", path: .relativeToCore("ProfileKit"))
+    public enum Core: String, CaseIterable {
         case Networking
 
         public var toTargetDependency: TargetDependency {
@@ -17,7 +16,7 @@ public enum Module {
         }
     }
 
-    public enum Domain: String {
+    public enum Domain: String, CaseIterable {
         case ProfileDomain
 
         public var toTargetDependency: TargetDependency {
@@ -25,8 +24,8 @@ public enum Module {
         }
     }
 
-    public enum Feature: String {
-//        case CoordinatorFeature
+    public enum Feature: String, CaseIterable {
+        case CoordinatorFeature
         case BaseFeature
 
         case ProfileFeature

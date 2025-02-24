@@ -14,7 +14,7 @@ let project = Project.module(
     name: box,
     targets: [
         .interface(module: "MessageBoxInterface", dependencies: [
-            .project(target: "BaseFeatureInterface", path: .relativeToFeature("BaseFeature"))
+            .project(target: "CoordinatorFeatureInterface", path: .relativeToFeature("CoordinatorFeature"))
         ]),
         .implements(module: "MessageBoxFeature", dependencies: [
 

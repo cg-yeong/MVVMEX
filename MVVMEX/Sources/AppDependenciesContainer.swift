@@ -1,14 +1,12 @@
 //
-//  FeatureDIContainer.swift
-//  BaseFeature
+//  AppDependenciesContainer.swift
+//  MVVMEX
 //
-//  Created by root0 on 2/21/25.
-//  Copyright © 2025 com.yeong. All rights reserved.
+//  Created by root0 on 2/24/25.
 //
 
 import Foundation
-import BaseFeatureInterface
-
+import CoordinatorFeatureInterface
 import ProfileDomainInterface
 import ProfileDomain
 import ProfileInterface

@@ -8,7 +8,7 @@
 
 import Foundation
 import ChattingInterface
-import BaseFeatureInterface
+import CoordinatorFeatureInterface
 
 public class ChattingViewModel: ChattingInterface {
 

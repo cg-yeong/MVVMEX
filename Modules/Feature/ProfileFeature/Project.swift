@@ -14,7 +14,7 @@ let project = Project.module(
     name: profile,
     targets: [
         .interface(module: "ProfileInterface", dependencies: [
-            .project(target: "BaseFeatureInterface", path: .relativeToFeature("BaseFeature"))
+            .project(target: "CoordinatorFeatureInterface", path: .relativeToFeature("CoordinatorFeature"))
         ]),
         .implements(module: "ProfileFeature", dependencies: [
             .project(target: "ProfileInterface", path: .relativeToFeature("ProfileFeature")),

@@ -7,7 +7,7 @@
 
 import Foundation
 import MessageBoxInterface
-import BaseFeatureInterface
+import CoordinatorFeatureInterface
 
 public class MessageBoxViewModel: MessageBoxInterface {
     private var coordinator: any CoordinatorInterface

@@ -1,13 +1,14 @@
 //
-//  Coordinator.swift
-//  BaseFeatureInterface
+//  AppCoordinator.swift
+//  MVVMEX
 //
-//  Created by root0 on 2/20/25.
-//  Copyright © 2025 com.yeong. All rights reserved.
+//  Created by root0 on 2/24/25.
 //
 
 import SwiftUI
 import BaseFeatureInterface
+import BaseFeature
+import CoordinatorFeatureInterface
 import ProfileDomainInterface
 import ProfileDomain
 import ProfileInterface
@@ -17,14 +18,12 @@ import ChattingFeature
 import MessageBoxInterface
 import MessageBoxFeature
 
-final class Coordinator: ObservableObject, CoordinatorInterface, DependencyInjectable {
+final class Coordinator: ObservableObject, CoordinatorInterface {
 
-    let container: DIContainer = .shared
-
-    @Published var path: [BaseFeatureInterface.FeaturePages] = [] {
+    @Published var path: [CoordinatorFeatureInterface.FeaturePages] = [] {
         didSet {
             print("========")
-            print("Coordinator path: \(path)")
+            print("Coordinator path: \(path.map({ $0.rawValue }))")
             print("========")
         }
     }
@@ -37,11 +36,9 @@ final class Coordinator: ObservableObject, CoordinatorInterface, DependencyInjec
         }
     }
 
-    init() {
-        container.start(with: self)
-    }
+    init() {}
 
-    func push(_ destination: BaseFeatureInterface.FeaturePages) {
+    func push(_ destination: CoordinatorFeatureInterface.FeaturePages) {
         path.append(destination)
     }
 
@@ -60,24 +57,15 @@ final class Coordinator: ObservableObject, CoordinatorInterface, DependencyInjec
     func set(paths: [FeaturePages]) {
         path = paths
     }
-
-    func resolveImplement<T, R>(_ type: T.Type, to: R.Type) -> R? {
-        guard let factory = container.resolve(type) else {
-            return nil
-        }
-
-        guard let implement = factory as? R else {
-            return nil
-        }
-        return implement
-    }
 }
 
 public struct CoordinatorModifier: ViewModifier {
-    var coordinator: Coordinator
+    var coordinator: CoordinatorInterface
+    var container: DIContainer
 
-    init(_ coordinator: Coordinator) {
+    init(_ coordinator: CoordinatorInterface, with container: DIContainer) {
         self.coordinator = coordinator
+        self.container = container
     }
 
     public func body(content: Content) -> some View {
@@ -85,7 +73,7 @@ public struct CoordinatorModifier: ViewModifier {
             .navigationDestination(for: FeaturePages.self) { page in
                 switch page {
                 case .profile:
-                    if let viewModel = coordinator.container.resolve(ProfileInterface.self) as? ProfileViewModel {
+                    if let viewModel = AppDelegate.container.resolve(ProfileInterface.self) as? ProfileViewModel {
                         CircleThumbnail(viewModel: viewModel)
                             .navigationBarBackButtonHidden()
                             .navigationTitle("")
@@ -94,7 +82,7 @@ public struct CoordinatorModifier: ViewModifier {
                         fatalError()
                     }
                 case .chatting:
-                    if let viewModel = coordinator.container.resolve(ChattingInterface.self) as? ChattingViewModel {
+                    if let viewModel = AppDelegate.container.resolve(ChattingInterface.self) as? ChattingViewModel {
                         ChattingWithOther(viewModel: viewModel)
                             .navigationBarBackButtonHidden()
                             .navigationTitle("")
@@ -103,7 +91,7 @@ public struct CoordinatorModifier: ViewModifier {
                         fatalError()
                     }
                 case .messageBox:
-                    if let viewModel = coordinator.container.resolve(MessageBoxInterface.self) as? MessageBoxViewModel {
+                    if let viewModel = AppDelegate.container.resolve(MessageBoxInterface.self) as? MessageBoxViewModel {
                         MessageBoxView(viewModel: viewModel)
                             .navigationBarBackButtonHidden()
                             .navigationTitle("")
@@ -122,3 +110,4 @@ public struct CoordinatorModifier: ViewModifier {
             }
     }
 }
+

@@ -7,9 +7,7 @@
 
 import Foundation
 import SwiftUI
-import BaseFeatureInterface
-//import ProfileInterface
-//import ProfileDomainInterface
+import CoordinatorFeatureInterface
 import ChattingInterface
 
 public struct ChattingWithOther<ViewModel: ChattingInterface>: View {

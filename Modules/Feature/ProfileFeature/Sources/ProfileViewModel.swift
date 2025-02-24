@@ -11,7 +11,7 @@ import SwiftUI
 import ProfileInterface
 import ProfileDomainInterface
 import Combine
-import BaseFeatureInterface
+import CoordinatorFeatureInterface
 
 public class ProfileViewModel: ProfileInterface {
 

@@ -7,69 +7,62 @@
 //
 
 import SwiftUI
+import CoordinatorFeatureInterface
 import BaseFeatureInterface
-import ProfileFeature
-import MessageBoxFeature
-import ChattingFeature
 
-public struct FeatureSelectView: View {
+public struct FeatureSelectView<ViewModel: BaseInterface>: View {
 
-    @StateObject var coordinator: Coordinator = Coordinator()
-
-    public init() {}
+//    @StateObject var coordinator: Coordinator = Coordinator()
+    private var viewModel: ViewModel
+    public init(viewModel: ViewModel) {
+        self.viewModel = viewModel
+    }
 
     public var body: some View {
-        Text(coordinator.path.map { $0.rawValue }.joined())
+        Text(viewModel.coordinatorPath.compactMap({ $0.rawValue }).joined())
 
-        NavigationStack(path: coordinator.bindingPath) {
-            VStack {
-                Button {
-                    // coordinator.open profile
-                    coordinator.push(.profile)
-                    print("Coordinator open Profile Feature")
-                } label: {
-                    Text("Profile")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 80)
-                        .background(.yellow)
-                        .clipShape(Capsule())
-                }
-                .padding(.horizontal, 12)
-
-                Button {
-                    // coordinator.open profile
-                    coordinator.push(.messageBox)
-                    print("Coordinator open MessageBox Feature")
-                } label: {
-                    Text("MessageBox")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 80)
-                        .background(.yellow)
-                        .clipShape(Capsule())
-                }
-                .padding(.horizontal, 12)
-
-                Button {
-                    // coordinator.open profile
-                    coordinator.push(.chatting)
-                    print("Coordinator open Chatting Feature")
-                } label: {
-                    Text("Chatting")
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 80)
-                        .background(.yellow)
-                        .clipShape(Capsule())
-                }
-                .padding(.horizontal, 12)
+        VStack {
+            Button {
+                // coordinator.open profile
+                viewModel.push(to: .profile)
+                print("Coordinator open Profile Feature")
+            } label: {
+                Text("Profile")
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 80)
+                    .background(.yellow)
+                    .clipShape(Capsule())
             }
-            .modifier(CoordinatorModifier(coordinator))
+            .padding(.horizontal, 12)
+
+            Button {
+                // coordinator.open profile
+                viewModel.push(to: .messageBox)
+                print("Coordinator open MessageBox Feature")
+            } label: {
+                Text("MessageBox")
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 80)
+                    .background(.yellow)
+                    .clipShape(Capsule())
+            }
+            .padding(.horizontal, 12)
+
+            Button {
+                // coordinator.open profile
+                viewModel.push(to: .chatting)
+                print("Coordinator open Chatting Feature")
+            } label: {
+                Text("Chatting")
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 80)
+                    .background(.yellow)
+                    .clipShape(Capsule())
+            }
+            .padding(.horizontal, 12)
         }
     }
-}
-
-#Preview {
-    FeatureSelectView()
 }

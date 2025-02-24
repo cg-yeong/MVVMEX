@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import BaseFeatureInterface
+import CoordinatorFeatureInterface
 import MessageBoxInterface
 
 public struct MessageBoxView<ViewModel: MessageBoxInterface>: View {

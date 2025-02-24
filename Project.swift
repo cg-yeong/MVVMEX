@@ -23,11 +23,13 @@ let project = Project(
                      basedOnDependencyAnalysis: false)
             ],
             dependencies: [
-                Module.Core.Networking.toTargetDependency,
-                Module.Domain.ProfileDomain.toTargetDependency,
                 Module.Feature.BaseFeature.toTargetDependency,
+                Module.Feature.CoordinatorFeature.toTargetDependency,
+                Module.Feature.ProfileFeature.toTargetDependency,
+                Module.Feature.MessageBoxFeature.toTargetDependency,
+                Module.Feature.ChattingFeature.toTargetDependency,
 
-//                Module.Feature.ProfileFeature.toTargetDependency,
+                Module.Domain.ProfileDomain.toTargetDependency,
             ]
         ),
         .target(

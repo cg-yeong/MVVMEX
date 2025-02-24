@@ -13,7 +13,7 @@ import ProfileDomainTesting
 import ProfileTesting
 import ProfileFeature
 
-import BaseFeatureInterface
+import CoordinatorFeatureInterface
 
 @main
 struct DemoApp: SwiftUI.App {
