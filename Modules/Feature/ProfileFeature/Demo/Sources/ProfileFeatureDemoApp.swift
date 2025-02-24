@@ -31,9 +31,9 @@ struct DemoApp: SwiftUI.App {
 class MockCoordinator: ObservableObject, CoordinatorInterface {
     init() {}
 
-    public var path: [BaseFeatureInterface.FeaturePages] = []
+    public var path: [CoordinatorFeatureInterface.FeaturePages] = []
 
-    public func push(_ destination: BaseFeatureInterface.FeaturePages) {
+    public func push(_ destination: CoordinatorFeatureInterface.FeaturePages) {
         path.append(destination)
     }
 
