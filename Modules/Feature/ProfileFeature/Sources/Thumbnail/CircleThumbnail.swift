@@ -69,7 +69,7 @@ public struct CircleThumbnail<ViewModel: ProfileInterface>: View {
         } placeholder: {
             let wooeng = UIImage(named: "wooeng_demo")
             if wooeng != nil {
-                Image(uiImage: UIImage(named: "wooeng_demo")!)
+                Image(uiImage: wooeng!)
             } else {
                 ProgressView()
             }

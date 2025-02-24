@@ -17,21 +17,19 @@ import ChattingFeature
 import MessageBoxInterface
 import MessageBoxFeature
 
-final public class Coordinator: ObservableObject, CoordinatorInterface, DependencyInjectable {
+final class Coordinator: ObservableObject, CoordinatorInterface, DependencyInjectable {
 
-    public let container: DIContainer = .shared
+    let container: DIContainer = .shared
 
-    @Published public var path: [BaseFeatureInterface.FeaturePages] = [] {
-        willSet {
-            print("Coordinator path: \(path), \(newValue)")
-        }
+    @Published var path: [BaseFeatureInterface.FeaturePages] = [] {
         didSet {
+            print("========")
             print("Coordinator path: \(path)")
             print("========")
         }
     }
 
-    public var bindingPath: Binding<[FeaturePages]> {
+    var bindingPath: Binding<[FeaturePages]> {
         Binding {
             self.path
         } set: { newPath in
@@ -39,53 +37,40 @@ final public class Coordinator: ObservableObject, CoordinatorInterface, Dependen
         }
     }
 
-    public init() {
-        start()
+    init() {
+        container.start(with: self)
     }
 
-    public func start() {
-        // Profile
-        container.register(MemberProfileRepository.self) {
-            MemberProfileRepositoryImpl()
-        }
-        container.register(FetchMemberProfileUsecase.self) {
-            FetchMemberProfileUsecaseImpl(profileRepository: self.container.resolve(MemberProfileRepository.self)!)
-        }
-        container.register(ProfileInterface.self) {
-            ProfileViewModel(profileUsecase: self.container.resolve(FetchMemberProfileUsecase.self)!, coordinator: self)
-        }
-
-        // Message
-        container.register(ChattingInterface.self) {
-            ChattingViewModel(coordinator: self)
-        }
-
-        // MessageBox
-        container.register(MessageBoxInterface.self) {
-            MessageBoxViewModel(coordinator: self)
-        }
-    }
-
-    public func push(_ destination: BaseFeatureInterface.FeaturePages) {
+    func push(_ destination: BaseFeatureInterface.FeaturePages) {
         path.append(destination)
     }
 
-    public func popToRoot() {
+    func popToRoot() {
         path.removeAll()
     }
 
-    public func pop() {
+    func pop() {
         path.removeLast()
     }
 
-    public func remove(_ page: FeaturePages) {
+    func remove(_ page: FeaturePages) {
         path.removeAll(where: { $0 == page })
     }
 
-    public func set(paths: [FeaturePages]) {
+    func set(paths: [FeaturePages]) {
         path = paths
     }
 
+    func resolveImplement<T, R>(_ type: T.Type, to: R.Type) -> R? {
+        guard let factory = container.resolve(type) else {
+            return nil
+        }
+
+        guard let implement = factory as? R else {
+            return nil
+        }
+        return implement
+    }
 }
 
 public struct CoordinatorModifier: ViewModifier {
@@ -100,7 +85,7 @@ public struct CoordinatorModifier: ViewModifier {
             .navigationDestination(for: FeaturePages.self) { page in
                 switch page {
                 case .profile:
-                    if let viewModel = coordinator.container.resolve((any ProfileInterface).self) as? ProfileViewModel {
+                    if let viewModel = coordinator.container.resolve(ProfileInterface.self) as? ProfileViewModel {
                         CircleThumbnail(viewModel: viewModel)
                             .navigationBarBackButtonHidden()
                             .navigationTitle("")

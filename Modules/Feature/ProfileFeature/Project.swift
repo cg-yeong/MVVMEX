@@ -26,6 +26,7 @@ let project = Project.module(
         ]),
         .tests(module: "ProfileTests", dependencies: [
             .project(target: profile, path: .relativeToFeature(profile)),
+            .project(target: "ProfileTesting", path: .relativeToFeature("ProfileFeature")),
             .project(target: "ProfileDomainTesting", path: .relativeToDomain("ProfileDomain"))
         ]),
         .demo(module: "ProfileDemo", dependencies: [

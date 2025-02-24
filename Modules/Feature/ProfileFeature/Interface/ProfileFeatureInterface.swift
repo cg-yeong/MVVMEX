@@ -8,7 +8,6 @@
 import Foundation
 import Combine
 import ProfileDomainInterface
-import BaseFeatureInterface
 
 public protocol ProfileInterface {
     func backToRoot()
