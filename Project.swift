@@ -28,6 +28,7 @@ let project = Project(
                 Module.Feature.ProfileFeature.toTargetDependency,
                 Module.Feature.MessageBoxFeature.toTargetDependency,
                 Module.Feature.ChattingFeature.toTargetDependency,
+                Module.Feature.MegaphoneFeature.toTargetDependency,
 
                 Module.Domain.ProfileDomain.toTargetDependency,
             ]

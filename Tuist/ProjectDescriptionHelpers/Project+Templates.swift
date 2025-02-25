@@ -32,6 +32,8 @@ public enum Module {
         case MessageBoxFeature
         case ChattingFeature
 
+        case MegaphoneFeature = "MMFeature"
+
         public var toTargetDependency: TargetDependency {
             .project(target: self.rawValue, path: .relativeToFeature(self.rawValue))
         }
