@@ -10,3 +10,7 @@ import Foundation
 public protocol ChattingInterface {
     func back()
 }
+
+public protocol ChattingFlowInterface {
+    func goBackFlow()
+}

@@ -7,9 +7,20 @@
 //
 
 import Foundation
-import CoordinatorFeatureInterface
 
 public protocol BaseInterface {
-    var coordinatorPath: [FeaturePages] { get }
-    func push(to path: FeaturePages)
+    var coordinatorPath: [String] { get }
+
+    func openProfile()
+    func openMessageBox()
+    func openChatting()
+}
+
+public protocol BaseFlowInterface {
+    
+    func getPathStack() -> [String]
+
+    func openProfile()
+    func openMessageBox()
+    func openChatting()
 }

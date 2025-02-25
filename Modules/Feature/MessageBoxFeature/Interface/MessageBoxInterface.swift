@@ -12,3 +12,9 @@ public protocol MessageBoxInterface {
     func goChat(with member: Int)
     func goWeb()
 }
+
+public protocol MessageBoxFlowInterface {
+    func goChatFlow(with member: Int)
+    func goWebListFlow(page: String)
+    func goBackFlow()
+}

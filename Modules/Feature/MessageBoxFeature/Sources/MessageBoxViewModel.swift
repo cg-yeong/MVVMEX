@@ -10,21 +10,21 @@ import MessageBoxInterface
 import CoordinatorFeatureInterface
 
 public class MessageBoxViewModel: MessageBoxInterface {
-    private var coordinator: any CoordinatorNavigationInterface
+    private var flowCoordinator: any MessageBoxFlowInterface
 
-    public init(coordinator: any CoordinatorNavigationInterface) {
-        self.coordinator = coordinator
+    public init(coordinator: any MessageBoxFlowInterface) {
+        self.flowCoordinator = coordinator
     }
 
     public func backToRoot() {
-        coordinator.pop()
+        flowCoordinator.goBackFlow()
     }
 
     public func goChat(with member: Int) {
-        coordinator.push(.chatting)
+        flowCoordinator.goChatFlow(with: member)
     }
 
     public func goWeb() {
-        coordinator.push(.webView("newList"))
+        flowCoordinator.goWebListFlow(page: "newList")
     }
 }

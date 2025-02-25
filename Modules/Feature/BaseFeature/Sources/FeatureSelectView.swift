@@ -19,12 +19,11 @@ public struct FeatureSelectView<ViewModel: BaseInterface>: View {
     }
 
     public var body: some View {
-        Text(viewModel.coordinatorPath.compactMap({ $0.rawValue }).joined())
+        Text(viewModel.coordinatorPath.compactMap({ $0 }).joined())
 
         VStack {
             Button {
-                // coordinator.open profile
-                viewModel.push(to: .profile)
+                viewModel.openProfile()
                 print("Coordinator open Profile Feature")
             } label: {
                 Text("Profile")
@@ -37,8 +36,7 @@ public struct FeatureSelectView<ViewModel: BaseInterface>: View {
             .padding(.horizontal, 12)
 
             Button {
-                // coordinator.open profile
-                viewModel.push(to: .messageBox)
+                viewModel.openMessageBox()
                 print("Coordinator open MessageBox Feature")
             } label: {
                 Text("MessageBox")
@@ -52,7 +50,7 @@ public struct FeatureSelectView<ViewModel: BaseInterface>: View {
 
             Button {
                 // coordinator.open profile
-                viewModel.push(to: .chatting)
+                viewModel.openProfile()
                 print("Coordinator open Chatting Feature")
             } label: {
                 Text("Chatting")

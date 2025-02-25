@@ -7,7 +7,6 @@
 
 import SwiftUI
 import Combine
-import CoordinatorFeatureInterface
 import ProfileInterface
 import ProfileDomainInterface
 

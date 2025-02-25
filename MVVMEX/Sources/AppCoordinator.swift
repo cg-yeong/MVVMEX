@@ -22,7 +22,7 @@ public typealias CoordinatorInterface = CoordinatorNavigationInterface & Profile
 
 final class Coordinator: ObservableObject, CoordinatorNavigationInterface {
 
-    @Published var path: [CoordinatorFeatureInterface.FeaturePages] = [] {
+    @Published var path: [AppPages] = [] {
         didSet {
             print("========")
             print("Coordinator path: \(path.map({ $0.rawValue }))")
@@ -30,7 +30,7 @@ final class Coordinator: ObservableObject, CoordinatorNavigationInterface {
         }
     }
 
-    var bindingPath: Binding<[FeaturePages]> {
+    var bindingPath: Binding<[AppPages]> {
         Binding {
             self.path
         } set: { newPath in
@@ -40,7 +40,7 @@ final class Coordinator: ObservableObject, CoordinatorNavigationInterface {
 
     init() {}
 
-    func push(_ destination: CoordinatorFeatureInterface.FeaturePages) {
+    func push(_ destination: AppPages) {
         path.append(destination)
     }
 
@@ -52,69 +52,42 @@ final class Coordinator: ObservableObject, CoordinatorNavigationInterface {
         path.removeLast()
     }
 
-    func remove(_ page: FeaturePages) {
+    func remove(_ page: AppPages) {
         path.removeAll(where: { $0 == page })
     }
 
-    func set(paths: [FeaturePages]) {
+    func set(paths: [AppPages]) {
         path = paths
     }
 }
-extension Coordinator: ProfileFlowInterface {
+extension Coordinator: BaseFlowInterface {
+    func getPathStack() -> [String] {
+        return path.map { $0.rawValue }
+    }
+    
+    func openProfile() {
+        push(.profile)
+    }
+    
+    func openMessageBox() {
+        push(.messageBox)
+    }
+    
+    func openChatting() {
+        push(.chatting)
+    }
+}
+
+extension Coordinator: ProfileFlowInterface, ChattingFlowInterface, MessageBoxFlowInterface {
+    func goWebListFlow(page: String) {
+        push(.webView(page))
+    }
+    
+    func goBackFlow() {
+        pop()
+    }
+    
     func goChatFlow(with member: Int) {
-        path.append(.chatting)
+        push(.chatting)
     }
 }
-
-public struct CoordinatorModifier: ViewModifier {
-    var coordinator: CoordinatorNavigationInterface
-    var container: DIContainer
-
-    init(_ coordinator: CoordinatorNavigationInterface, with container: DIContainer) {
-        self.coordinator = coordinator
-        self.container = container
-    }
-
-    public func body(content: Content) -> some View {
-        content
-            .navigationDestination(for: FeaturePages.self) { page in
-                switch page {
-                case .profile:
-                    if let viewModel = AppDelegate.container.resolve(ProfileInterface.self) as? ProfileViewModel {
-                        CircleThumbnail(viewModel: viewModel)
-                            .navigationBarBackButtonHidden()
-                            .navigationTitle("")
-                            .navigationBarHidden(true)
-                    } else {
-                        fatalError()
-                    }
-                case .chatting:
-                    if let viewModel = AppDelegate.container.resolve(ChattingInterface.self) as? ChattingViewModel {
-                        ChattingWithOther(viewModel: viewModel)
-                            .navigationBarBackButtonHidden()
-                            .navigationTitle("")
-                            .navigationBarHidden(true)
-                    } else {
-                        fatalError()
-                    }
-                case .messageBox:
-                    if let viewModel = AppDelegate.container.resolve(MessageBoxInterface.self) as? MessageBoxViewModel {
-                        MessageBoxView(viewModel: viewModel)
-                            .navigationBarBackButtonHidden()
-                            .navigationTitle("")
-                            .navigationBarHidden(true)
-                    } else {
-                        fatalError()
-                    }
-                case .webView:
-                    SUWebView(coordinator: coordinator)
-                        .navigationBarBackButtonHidden()
-                        .navigationTitle("")
-                        .navigationBarHidden(true)
-                default:
-                    Color.blue.frame(width: 200, height: 200).opacity(0.5)
-                }
-            }
-    }
-}
-

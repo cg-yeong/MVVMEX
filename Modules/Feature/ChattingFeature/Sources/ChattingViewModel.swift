@@ -13,13 +13,13 @@ import CoordinatorFeatureInterface
 public class ChattingViewModel: ChattingInterface {
 
 //    private var chattingUsecase:
-    private var coordinator: any CoordinatorNavigationInterface
+    private var coordinator: any ChattingFlowInterface
 
-    public init(coordinator: any CoordinatorNavigationInterface) {
+    public init(coordinator: any ChattingFlowInterface) {
         self.coordinator = coordinator
     }
 
     public func back() {
-        coordinator.pop()
+        coordinator.goBackFlow()
     }
 }

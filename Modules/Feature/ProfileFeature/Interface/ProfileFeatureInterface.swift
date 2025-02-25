@@ -19,4 +19,6 @@ public protocol ProfileInterface {
 
 public protocol ProfileFlowInterface {
     func goChatFlow(with member: Int)
+    func goWebListFlow(page: String)
+    func goBackFlow()
 }

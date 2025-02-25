@@ -24,7 +24,6 @@ let project = Project(
             ],
             dependencies: [
                 Module.Feature.BaseFeature.toTargetDependency,
-                Module.Feature.CoordinatorFeature.toTargetDependency,
                 Module.Feature.ProfileFeature.toTargetDependency,
                 Module.Feature.MessageBoxFeature.toTargetDependency,
                 Module.Feature.ChattingFeature.toTargetDependency,

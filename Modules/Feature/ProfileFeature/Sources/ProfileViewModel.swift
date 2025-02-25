@@ -11,17 +11,15 @@ import SwiftUI
 import ProfileInterface
 import ProfileDomainInterface
 import Combine
-import CoordinatorFeatureInterface
 
 public class ProfileViewModel: ProfileInterface {
 
     private var profileUsecase: FetchMemberProfileUsecase
-    private var coordinator: any CoordinatorNavigationInterface
+
     private var flowCoordinator: any ProfileFlowInterface
 
-    public init(profileUsecase: FetchMemberProfileUsecase, coordinator: any CoordinatorNavigationInterface, flow: any ProfileFlowInterface) {
+    public init(profileUsecase: FetchMemberProfileUsecase, flow: any ProfileFlowInterface) {
         self.profileUsecase = profileUsecase
-        self.coordinator = coordinator
         self.flowCoordinator = flow
     }
 
@@ -36,7 +34,8 @@ public class ProfileViewModel: ProfileInterface {
     }
 
     public func backToRoot() {
-        coordinator.pop()
+//        coordinator.pop()
+        flowCoordinator.goBackFlow()
     }
 
     public func goChat(with member: Int) {
@@ -45,6 +44,7 @@ public class ProfileViewModel: ProfileInterface {
     }
 
     public func openWeb() {
-        coordinator.push(.webView("alim"))
+//        coordinator.push(.webView("alim"))
+        flowCoordinator.goWebListFlow(page: "alim")
     }
 }

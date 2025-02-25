@@ -13,18 +13,28 @@ import CoordinatorFeatureInterface
 
 // path , push
 public class BaseViewModel: BaseInterface {
-    private var coordinator: any CoordinatorNavigationInterface
+    
+    private var coordinator: any BaseFlowInterface
 
-    public var coordinatorPath: [FeaturePages] {
-        return coordinator.path
+    public var coordinatorPath: [String] {
+        return coordinator.getPathStack()
     }
 
 
-    public init(coordinator: any CoordinatorNavigationInterface) {
+    public init(coordinator: any BaseFlowInterface) {
         self.coordinator = coordinator
     }
 
-    public func push(to path: FeaturePages) {
-        coordinator.push(path)
+    public func openProfile() {
+        coordinator.openProfile()
     }
+
+    public func openMessageBox() {
+        coordinator.openMessageBox()
+    }
+
+    public func openChatting() {
+        coordinator.openChatting()
+    }
+
 }

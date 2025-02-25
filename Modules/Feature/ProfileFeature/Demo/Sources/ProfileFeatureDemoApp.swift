@@ -13,8 +13,6 @@ import ProfileDomainTesting
 import ProfileTesting
 import ProfileFeature
 
-import CoordinatorFeatureInterface
-
 @main
 struct DemoApp: SwiftUI.App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -22,40 +20,31 @@ struct DemoApp: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
             let mockUsecase = MockMemberProfileUsecaseImpl()
-            let mockVM = ProfileViewModel(profileUsecase: mockUsecase, coordinator: MockCoordinator(), flow: MockCoordinator())
+            let mockVM = ProfileViewModel(profileUsecase: mockUsecase, flow: MockCoordinator())
             CircleThumbnail(viewModel: mockVM)
         }
     }
 }
 
-class MockCoordinator: ObservableObject, CoordinatorNavigationInterface, ProfileFlowInterface {
+enum ProfilePage: Hashable, Codable {
+    case profile
+}
+
+class MockCoordinator: ObservableObject, ProfileFlowInterface {
 
     init() {}
 
-    public var path: [CoordinatorFeatureInterface.FeaturePages] = []
-
-    public func push(_ destination: CoordinatorFeatureInterface.FeaturePages) {
-        path.append(destination)
-    }
-
-    public func popToRoot() {
-        path.removeAll()
-    }
-
-    public func pop() {
-        path.removeLast()
-    }
-
-    public func remove(_ page: FeaturePages) {
-        path.removeAll(where: { $0 == page })
-    }
-
-    public func set(paths: [FeaturePages]) {
-        path = paths
-    }
+    public var path: [ProfilePage] = []
 
     func goChatFlow(with member: Int) {
-        path.append(.chatting)
+
     }
 
+    func goWebListFlow(page: String) {
+
+    }
+
+    func goBackFlow() {
+
+    }
 }
