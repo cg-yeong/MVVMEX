@@ -1,5 +1,5 @@
 //
-//  CoordinatorInterface.swift
+//  CoordinatorNavigationInterface.swift
 //  BaseFeatureInterface
 //
 //  Created by root0 on 2/20/25.
@@ -31,7 +31,7 @@ public enum FeaturePages: Hashable, Codable {
     }
 }
 
-public protocol CoordinatorInterface: AnyObject {
+public protocol CoordinatorNavigationInterface: AnyObject {
     var path: [FeaturePages] { get }
     func push(_ destination: FeaturePages)
     func popToRoot()
@@ -39,4 +39,3 @@ public protocol CoordinatorInterface: AnyObject {
     func remove(_ page: FeaturePages)
     func set(paths: [FeaturePages])
 }
-

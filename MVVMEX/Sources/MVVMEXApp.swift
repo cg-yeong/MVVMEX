@@ -1,5 +1,7 @@
 import SwiftUI
+import CoordinatorFeatureInterface
 import UIKit
+import ProfileInterface
 
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?

@@ -13,14 +13,14 @@ import CoordinatorFeatureInterface
 
 // path , push
 public class BaseViewModel: BaseInterface {
-    private var coordinator: any CoordinatorInterface
+    private var coordinator: any CoordinatorNavigationInterface
 
     public var coordinatorPath: [FeaturePages] {
         return coordinator.path
     }
 
 
-    public init(coordinator: any CoordinatorInterface) {
+    public init(coordinator: any CoordinatorNavigationInterface) {
         self.coordinator = coordinator
     }
 

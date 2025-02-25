@@ -13,9 +13,7 @@ let profile: String = Module.Feature.ProfileFeature.rawValue
 let project = Project.module(
     name: profile,
     targets: [
-        .interface(module: "ProfileInterface", dependencies: [
-            .project(target: "CoordinatorFeatureInterface", path: .relativeToFeature("CoordinatorFeature"))
-        ]),
+        .interface(module: "ProfileInterface"),
         .implements(module: "ProfileFeature", dependencies: [
             .project(target: "ProfileInterface", path: .relativeToFeature("ProfileFeature")),
             .project(target: "ProfileDomainInterface", path: .relativeToDomain("ProfileDomain"))

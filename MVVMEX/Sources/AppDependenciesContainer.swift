@@ -51,7 +51,7 @@ class DIContainer {
             FetchMemberProfileUsecaseImpl(profileRepository: self.resolve(MemberProfileRepository.self)!)
         }
         register(ProfileInterface.self) {
-            ProfileViewModel(profileUsecase: self.resolve(FetchMemberProfileUsecase.self)!, coordinator: coordinator)
+            ProfileViewModel(profileUsecase: self.resolve(FetchMemberProfileUsecase.self)!, coordinator: coordinator, flow: coordinator)
         }
 
         // Message

@@ -13,9 +13,7 @@ let box: String = Module.Feature.MessageBoxFeature.rawValue
 let project = Project.module(
     name: box,
     targets: [
-        .interface(module: "MessageBoxInterface", dependencies: [
-            .project(target: "CoordinatorFeatureInterface", path: .relativeToFeature("CoordinatorFeature"))
-        ]),
+        .interface(module: "MessageBoxInterface"),
         .implements(module: "MessageBoxFeature", dependencies: [
 
             .project(target: "MessageBoxInterface", path: .relativeToFeature("MessageBoxFeature"))

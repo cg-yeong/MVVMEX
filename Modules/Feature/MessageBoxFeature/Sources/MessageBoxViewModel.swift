@@ -10,9 +10,9 @@ import MessageBoxInterface
 import CoordinatorFeatureInterface
 
 public class MessageBoxViewModel: MessageBoxInterface {
-    private var coordinator: any CoordinatorInterface
+    private var coordinator: any CoordinatorNavigationInterface
 
-    public init(coordinator: any CoordinatorInterface) {
+    public init(coordinator: any CoordinatorNavigationInterface) {
         self.coordinator = coordinator
     }
 

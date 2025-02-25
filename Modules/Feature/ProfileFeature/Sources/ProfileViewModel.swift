@@ -16,11 +16,13 @@ import CoordinatorFeatureInterface
 public class ProfileViewModel: ProfileInterface {
 
     private var profileUsecase: FetchMemberProfileUsecase
-    private var coordinator: any CoordinatorInterface
+    private var coordinator: any CoordinatorNavigationInterface
+    private var flowCoordinator: any ProfileFlowInterface
 
-    public init(profileUsecase: FetchMemberProfileUsecase, coordinator: any CoordinatorInterface) {
+    public init(profileUsecase: FetchMemberProfileUsecase, coordinator: any CoordinatorNavigationInterface, flow: any ProfileFlowInterface) {
         self.profileUsecase = profileUsecase
         self.coordinator = coordinator
+        self.flowCoordinator = flow
     }
 
     public func fetchMemberInfo() async -> Member {
@@ -38,7 +40,8 @@ public class ProfileViewModel: ProfileInterface {
     }
 
     public func goChat(with member: Int) {
-        coordinator.push(.chatting)
+//        coordinator.push(.chatting)
+        flowCoordinator.goChatFlow(with: member)
     }
 
     public func openWeb() {

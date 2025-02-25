@@ -18,7 +18,9 @@ import ChattingFeature
 import MessageBoxInterface
 import MessageBoxFeature
 
-final class Coordinator: ObservableObject, CoordinatorInterface {
+public typealias CoordinatorInterface = CoordinatorNavigationInterface & ProfileFlowInterface
+
+final class Coordinator: ObservableObject, CoordinatorNavigationInterface {
 
     @Published var path: [CoordinatorFeatureInterface.FeaturePages] = [] {
         didSet {
@@ -58,12 +60,17 @@ final class Coordinator: ObservableObject, CoordinatorInterface {
         path = paths
     }
 }
+extension Coordinator: ProfileFlowInterface {
+    func goChatFlow(with member: Int) {
+        path.append(.chatting)
+    }
+}
 
 public struct CoordinatorModifier: ViewModifier {
-    var coordinator: CoordinatorInterface
+    var coordinator: CoordinatorNavigationInterface
     var container: DIContainer
 
-    init(_ coordinator: CoordinatorInterface, with container: DIContainer) {
+    init(_ coordinator: CoordinatorNavigationInterface, with container: DIContainer) {
         self.coordinator = coordinator
         self.container = container
     }

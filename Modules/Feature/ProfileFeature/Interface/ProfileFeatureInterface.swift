@@ -16,3 +16,7 @@ public protocol ProfileInterface {
     func goChat(with member: Int)
     func openWeb()
 }
+
+public protocol ProfileFlowInterface {
+    func goChatFlow(with member: Int)
+}

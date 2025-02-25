@@ -11,9 +11,9 @@ import CoordinatorFeatureInterface
 import Combine
 
 public struct SUWebView: View {
-    var coordinator: any CoordinatorInterface
+    var coordinator: any CoordinatorNavigationInterface
 
-    public init(coordinator: any CoordinatorInterface) {
+    public init(coordinator: any CoordinatorNavigationInterface) {
         self.coordinator = coordinator
     }
 

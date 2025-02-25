@@ -22,13 +22,14 @@ struct DemoApp: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
             let mockUsecase = MockMemberProfileUsecaseImpl()
-            let mockVM = ProfileViewModel(profileUsecase: mockUsecase, coordinator: MockCoordinator())
+            let mockVM = ProfileViewModel(profileUsecase: mockUsecase, coordinator: MockCoordinator(), flow: MockCoordinator())
             CircleThumbnail(viewModel: mockVM)
         }
     }
 }
 
-class MockCoordinator: ObservableObject, CoordinatorInterface {
+class MockCoordinator: ObservableObject, CoordinatorNavigationInterface, ProfileFlowInterface {
+
     init() {}
 
     public var path: [CoordinatorFeatureInterface.FeaturePages] = []
@@ -52,4 +53,9 @@ class MockCoordinator: ObservableObject, CoordinatorInterface {
     public func set(paths: [FeaturePages]) {
         path = paths
     }
+
+    func goChatFlow(with member: Int) {
+        path.append(.chatting)
+    }
+
 }
