@@ -7,13 +7,13 @@
 //
 
 import SwiftUI
-import CoordinatorFeatureInterface
 import Combine
+import BaseFeatureInterface
 
 public struct SUWebView: View {
-    var coordinator: any CoordinatorNavigationInterface
+    var coordinator: any BaseFlowInterface
 
-    public init(coordinator: any CoordinatorNavigationInterface) {
+    public init(coordinator: any BaseFlowInterface) {
         self.coordinator = coordinator
     }
 
@@ -22,11 +22,7 @@ public struct SUWebView: View {
             .overlay {
                 VStack {
                     Button {
-                        if coordinator.path.last == .webView("alim") {
-                            coordinator.pop()
-                        } else {
-                            coordinator.push(.profile)
-                        }
+                        coordinator.goWebListFlow(page: "alim")
                     } label: {
                         Text("GO Profile")
                             .padding()
@@ -37,8 +33,7 @@ public struct SUWebView: View {
                     .padding(.horizontal, 12)
 
                     Button {
-                        coordinator.popToRoot()
-                        coordinator.push(.messageBox)
+                        coordinator.goMessageBoxFlow()
                     } label: {
                         Text("GO MessageBox")
                             .padding()
@@ -50,7 +45,7 @@ public struct SUWebView: View {
                 }
             }
             .onTapGesture {
-                coordinator.pop()
+                coordinator.goBackFlow()
             }
     }
 

@@ -17,12 +17,12 @@ public protocol MMUIAccessible {
     func isAvailableMMFeature() -> Bool
 
     /// 웹 서버에서 MM 기능 on/off 로 관리할 시 사용가능한지
-    func supportsMM() -> Bool
+    func supportsMM() async -> Bool
 }
 
 public protocol MMUserInterface: MMUIAccessible {
     /// MMUIAccessible 에서 MM 접근 가능화면인지 && 서버에서 MM 기능 켰는지 둘다 만족
-    func isMMUsable() -> Bool
+    func isMMUsable() async -> Bool
 }
 
 /// User Input Actions, -> For change

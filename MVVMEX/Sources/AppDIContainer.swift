@@ -6,15 +6,19 @@
 //
 
 import Foundation
-import CoordinatorFeatureInterface
 import ProfileDomainInterface
 import ProfileDomain
+import AppConfigDomainInterface
+import AppConfigDomain
+
 import ProfileInterface
 import ProfileFeature
 import ChattingInterface
 import ChattingFeature
 import MessageBoxInterface
 import MessageBoxFeature
+import BaseFeatureInterface
+import BaseFeature
 
 protocol DependencyInjectable: AnyObject {
     associatedtype Container
@@ -44,14 +48,53 @@ class DIContainer {
     }
 
     func start(with coordinator: CoordinatorInterface) {
+
+        registerAppconfigDomain()
+        registerProfileDomain()
+        registerFeatures(flow: coordinator)
+
+    }
+
+    func makeBaseViewModel(coordinator: CoordinatorInterface) -> BaseViewModel {
+        if let viewModel = resolve(BaseInterface.self) as? BaseViewModel {
+            return viewModel
+        } else {
+            let repository = WebSettingRepositoryImpl()
+            let usecase: FetchWebSettingUsecase = FetchWebSettingUsecaseImpl(webSettingRepository: repository)
+            return BaseViewModel(flow: coordinator, webSettingUsecase: usecase)
+        }
+    }
+}
+
+extension DIContainer {
+    func registerAppconfigDomain() {
+        register(WebSettingRepository.self) {
+            WebSettingRepositoryImpl()
+        }
+
+        register(FetchWebSettingUsecase.self) {
+            FetchWebSettingUsecaseImpl(webSettingRepository: self.resolve(WebSettingRepository.self)!)
+        }
+    }
+
+    func registerProfileDomain() {
         register(MemberProfileRepository.self) {
             MemberProfileRepositoryImpl()
         }
         register(FetchMemberProfileUsecase.self) {
             FetchMemberProfileUsecaseImpl(profileRepository: self.resolve(MemberProfileRepository.self)!)
         }
+    }
+
+    func registerFeatures(flow coordinator: CoordinatorInterface) {
+        // Base
+        register(BaseInterface.self) {
+            BaseViewModel(flow: coordinator, webSettingUsecase: self.resolve(FetchWebSettingUsecase.self)!)
+        }
+
+        // Profile
         register(ProfileInterface.self) {
-            ProfileViewModel(profileUsecase: self.resolve(FetchMemberProfileUsecase.self)!, coordinator: coordinator, flow: coordinator)
+            ProfileViewModel(profileUsecase: self.resolve(FetchMemberProfileUsecase.self)!, flow: coordinator)
         }
 
         // Message

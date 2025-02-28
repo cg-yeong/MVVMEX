@@ -11,6 +11,7 @@ public protocol MessageBoxInterface {
     func backToRoot()
     func goChat(with member: Int)
     func goWeb()
+    func presentMM()
 }
 
 public protocol MessageBoxFlowInterface {

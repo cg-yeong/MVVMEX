@@ -1,6 +1,7 @@
 import SwiftUI
-import CoordinatorFeatureInterface
 import UIKit
+
+import AppConfigDomain
 import ProfileInterface
 
 final class AppDelegate: UIResponder, UIApplicationDelegate {

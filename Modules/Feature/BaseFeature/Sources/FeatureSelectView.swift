@@ -9,6 +9,7 @@
 import SwiftUI
 import CoordinatorFeatureInterface
 import BaseFeatureInterface
+import AppConfigDomainInterface
 
 public struct FeatureSelectView<ViewModel: BaseInterface>: View {
 

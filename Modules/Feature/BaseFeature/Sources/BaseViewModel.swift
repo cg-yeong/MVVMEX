@@ -11,30 +11,49 @@ import SwiftUI
 import BaseFeatureInterface
 import CoordinatorFeatureInterface
 
+import AppConfigDomainInterface
+import AppConfigDomain
 // path , push
 public class BaseViewModel: BaseInterface {
-    
+
     private var coordinator: any BaseFlowInterface
+
+    private var webSettingUsecase: FetchWebSettingUsecase
 
     public var coordinatorPath: [String] {
         return coordinator.getPathStack()
     }
 
-
-    public init(coordinator: any BaseFlowInterface) {
-        self.coordinator = coordinator
+    public init(flow: any BaseFlowInterface, webSettingUsecase: FetchWebSettingUsecase) {
+        self.coordinator = flow
+        self.webSettingUsecase = webSettingUsecase
     }
 
     public func openProfile() {
-        coordinator.openProfile()
+        coordinator.goProfileFlow()
     }
 
     public func openMessageBox() {
-        coordinator.openMessageBox()
+        coordinator.goMessageBoxFlow()
     }
 
     public func openChatting() {
-        coordinator.openChatting()
+        coordinator.goChatFlow(with: 123)
     }
 
+    public func openWebView(_ detail: String) {
+        coordinator.goWebListFlow(page: detail)
+    }
+
+    public func backToRoot() {
+        coordinator.goBackFlow()
+    }
+
+    public func fetchWebSetting() async {
+        do {
+            let _ = try await webSettingUsecase.fetchWebSetting()
+        } catch {
+
+        }
+    }
 }

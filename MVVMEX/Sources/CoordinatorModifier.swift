@@ -16,17 +16,20 @@ import ChattingInterface
 import ChattingFeature
 import BaseFeatureInterface
 import BaseFeature
+import MegaphoneInterface
+import MMFeature
 
 public struct CoordinatorModifier: ViewModifier {
-    var coordinator: CoordinatorNavigationInterface
+    var coordinator: CoordinatorInterface
     var container: DIContainer
 
-    init(_ coordinator: CoordinatorNavigationInterface, with container: DIContainer) {
+    init(_ coordinator: CoordinatorInterface, with container: DIContainer) {
         self.coordinator = coordinator
         self.container = container
     }
 
     public func body(content: Content) -> some View {
+        let container = AppDelegate.container
         content
             .navigationDestination(for: AppPages.self) { page in
                 switch page {

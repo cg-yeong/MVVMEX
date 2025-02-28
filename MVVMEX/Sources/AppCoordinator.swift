@@ -18,7 +18,7 @@ import ChattingFeature
 import MessageBoxInterface
 import MessageBoxFeature
 
-public typealias CoordinatorInterface = CoordinatorNavigationInterface & ProfileFlowInterface
+public typealias CoordinatorInterface = CoordinatorNavigationInterface & ProfileFlowInterface & ChattingFlowInterface & MessageBoxFlowInterface & BaseFlowInterface
 
 final class Coordinator: ObservableObject, CoordinatorNavigationInterface {
 
@@ -60,27 +60,28 @@ final class Coordinator: ObservableObject, CoordinatorNavigationInterface {
         path = paths
     }
 }
-extension Coordinator: BaseFlowInterface {
+
+extension Coordinator: BaseFlowInterface, ProfileFlowInterface, ChattingFlowInterface, MessageBoxFlowInterface {
+
     func getPathStack() -> [String] {
         return path.map { $0.rawValue }
     }
-    
-    func openProfile() {
+
+    func goProfileFlow() {
         push(.profile)
     }
-    
-    func openMessageBox() {
+
+    func goMessageBoxFlow() {
+        popToRoot()
         push(.messageBox)
     }
-    
-    func openChatting() {
-        push(.chatting)
-    }
-}
 
-extension Coordinator: ProfileFlowInterface, ChattingFlowInterface, MessageBoxFlowInterface {
     func goWebListFlow(page: String) {
-        push(.webView(page))
+        if path.last == .webView("alim") {
+            pop()
+        } else {
+            push(.webView(page))
+        }
     }
     
     func goBackFlow() {

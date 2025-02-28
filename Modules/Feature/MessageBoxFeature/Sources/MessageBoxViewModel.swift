@@ -6,10 +6,13 @@
 //
 
 import Foundation
+import SwiftUI
 import MessageBoxInterface
 import CoordinatorFeatureInterface
 
-public class MessageBoxViewModel: MessageBoxInterface {
+public class MessageBoxViewModel: MessageBoxInterface, ObservableObject {
+    @Published var isPresentingMM: Bool = false
+//    @StateObject var 
     private var flowCoordinator: any MessageBoxFlowInterface
 
     public init(coordinator: any MessageBoxFlowInterface) {
@@ -26,5 +29,10 @@ public class MessageBoxViewModel: MessageBoxInterface {
 
     public func goWeb() {
         flowCoordinator.goWebListFlow(page: "newList")
+    }
+
+    public func presentMM() {
+        print("Modal MegaMega")
+        self.isPresentingMM.toggle()
     }
 }

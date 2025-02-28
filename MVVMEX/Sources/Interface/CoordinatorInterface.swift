@@ -30,6 +30,10 @@ public enum AppPages: Hashable, Codable {
     }
 }
 
+public enum ModalPages: Hashable, Codable {
+    case megamega
+}
+
 public protocol CoordinatorNavigationInterface: AnyObject {
     var path: [AppPages] { get }
     func push(_ destination: AppPages)

@@ -30,6 +30,7 @@ let project = Project(
                 Module.Feature.MegaphoneFeature.toTargetDependency,
 
                 Module.Domain.ProfileDomain.toTargetDependency,
+                Module.Domain.AppConfigDomain.toTargetDependency,
             ]
         ),
         .target(
