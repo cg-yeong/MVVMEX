@@ -10,7 +10,7 @@ import SwiftUI
 import AppConfigDomainInterface
 
 public struct FetchWebSettingUsecaseImpl: FetchWebSettingUsecase {
-    @Environment(\.webAdminConfig) var webAdminConfig
+    private var webAdminConfig: WebAdminConfig = .init()
 
     private let webSettingRepository: WebSettingRepository
 

@@ -20,7 +20,10 @@ import MessageBoxFeature
 
 public typealias CoordinatorInterface = CoordinatorNavigationInterface & ProfileFlowInterface & ChattingFlowInterface & MessageBoxFlowInterface & BaseFlowInterface
 
+/// MainFeature 에 있어야 하기 때문에 App 레이어에 있는 AppDelegate, SceneDelegate 모르게 구현해보자
 final class Coordinator: ObservableObject, CoordinatorNavigationInterface {
+//    @EnvironmentObject var appDelegate: AppDelegate
+//    @EnvironmentObject var sceneDelegate: SceneDelegate
 
     @Published var path: [AppPages] = [] {
         didSet {
@@ -59,6 +62,44 @@ final class Coordinator: ObservableObject, CoordinatorNavigationInterface {
     func set(paths: [AppPages]) {
         path = paths
     }
+
+    func restartAppDelegateApp() {
+
+        let anyAppDelegate = UIApplication.shared.delegate // -> SwiftUI.AppDelegate
+        print("anyAppDelegate type: \(anyAppDelegate.self)")
+        let apd = anyAppDelegate as? AppDelegate
+
+        if let apd = apd {
+            apd.restart()
+        } else {
+            print("AppDelegate not found")
+        }
+
+        let scenes = UIApplication.shared.connectedScenes
+        let wsc = scenes.first(where: { $0 is UIWindowScene })
+        let sdelegate = wsc?.delegate
+        let anySceneDelegate = wsc?.delegate // -> SwiftUI.AppSceneDelegate
+        print("anySceneDelegate type: \(anySceneDelegate.self)")
+        let sc = anySceneDelegate as? SceneDelegate
+        if let sc = sc {
+            sc.restart()
+        } else {
+            print("SceneDelegate 1 not found")
+        }
+
+        let sc2: SceneDelegate? = scenes.lazy.map { $0.delegate as? SceneDelegate }
+            .compactMap{$0}.first
+        if let sc2 = sc2 {
+            sc2.restart()
+        } else {
+            print("SceneDelegate 2 not found")
+        }
+
+    }
+
+    func restartSwiftUIApp() {
+        
+    }
 }
 
 extension Coordinator: BaseFlowInterface, ProfileFlowInterface, ChattingFlowInterface, MessageBoxFlowInterface {
@@ -90,5 +131,10 @@ extension Coordinator: BaseFlowInterface, ProfileFlowInterface, ChattingFlowInte
     
     func goChatFlow(with member: Int) {
         push(.chatting)
+    }
+
+    func goLogoutFlow() {
+        popToRoot()
+        restartAppDelegateApp()
     }
 }

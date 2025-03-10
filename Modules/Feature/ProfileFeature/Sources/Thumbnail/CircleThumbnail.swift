@@ -27,6 +27,8 @@ public struct CircleThumbnail<ViewModel: ProfileInterface>: View {
             profileName
 
             goChat
+
+            goLogout
         }
         .onAppear {
             Task { @MainActor in
@@ -92,6 +94,20 @@ public struct CircleThumbnail<ViewModel: ProfileInterface>: View {
             viewModel.goChat(with: 0)
         } label: {
             Text("GO Chatting")
+                .padding()
+                .frame(maxWidth: .infinity)
+                .background(.blue.opacity(0.5))
+                .clipShape(Capsule())
+        }
+        .padding(.horizontal, 12)
+    }
+
+    @ViewBuilder
+    var goLogout: some View {
+        Button {
+            viewModel.logout()
+        } label: {
+            Text("GO Logout")
                 .padding()
                 .frame(maxWidth: .infinity)
                 .background(.blue.opacity(0.5))

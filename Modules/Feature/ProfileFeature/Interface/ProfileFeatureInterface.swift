@@ -15,10 +15,12 @@ public protocol ProfileInterface {
     func fetchMemberInfo() async -> Member
     func goChat(with member: Int)
     func openWeb()
+    func logout()
 }
 
 public protocol ProfileFlowInterface {
     func goChatFlow(with member: Int)
     func goWebListFlow(page: String)
     func goBackFlow()
+    func goLogoutFlow()
 }

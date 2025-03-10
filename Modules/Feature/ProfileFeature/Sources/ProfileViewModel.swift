@@ -47,4 +47,8 @@ public class ProfileViewModel: ProfileInterface {
 //        coordinator.push(.webView("alim"))
         flowCoordinator.goWebListFlow(page: "alim")
     }
+
+    public func logout() {
+        flowCoordinator.goLogoutFlow()
+    }
 }
