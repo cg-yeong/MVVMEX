@@ -6,10 +6,9 @@ import ProfileInterface
 
 //@main
 final class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
-    @Published var key: UUID = .init()
 
     static let container: DIContainer = .shared
-    var coordinator: Coordinator = .init()
+    @Published var coordinator: Coordinator = .init()
 
     func application(
         _ application: UIApplication,
@@ -30,8 +29,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
     }
 
     func restart() {
-//        coordinator = Coordinator()
-        key = .init()
+        print("Restart From AppDelegate ")
     }
 }
 
@@ -39,6 +37,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObject 
     var window: UIWindow?
 
     func restart() {
+        print("Restart From SceneDelegate ")
         makeAppFlowCoordinator(isLogout: true)
     }
 
@@ -80,7 +79,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate, ObservableObject 
 
         return ContentView()
             .environmentObject(delegate.coordinator)
-            .id(delegate.key)
+            .id(delegate.coordinator.key)
     }
 }
 
@@ -96,13 +95,11 @@ struct MVVMEXApp: App {
 
     @Environment(\.scenePhase) private var scenePhase
 
-    @State private var isIntro = true
-
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(delegate.coordinator)
-                .id(delegate.key)
+                .id(delegate.coordinator.key)
         }
     }
 }

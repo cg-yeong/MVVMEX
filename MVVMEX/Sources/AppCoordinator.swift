@@ -22,9 +22,12 @@ public typealias CoordinatorInterface = CoordinatorNavigationInterface & Profile
 
 /// MainFeature 에 있어야 하기 때문에 App 레이어에 있는 AppDelegate, SceneDelegate 모르게 구현해보자
 final class Coordinator: ObservableObject, CoordinatorNavigationInterface {
-//    @EnvironmentObject var appDelegate: AppDelegate
-//    @EnvironmentObject var sceneDelegate: SceneDelegate
-
+    
+    @Published var key: UUID = .init() {
+        didSet {
+            print("Coordinator ID Key: \(key)")
+        }
+    }
     @Published var path: [AppPages] = [] {
         didSet {
             print("========")
@@ -70,7 +73,7 @@ final class Coordinator: ObservableObject, CoordinatorNavigationInterface {
         let apd = anyAppDelegate as? AppDelegate
 
         if let apd = apd {
-            apd.restart()
+//            apd.restart()
         } else {
             print("AppDelegate not found")
         }
@@ -87,18 +90,12 @@ final class Coordinator: ObservableObject, CoordinatorNavigationInterface {
             print("SceneDelegate 1 not found")
         }
 
-        let sc2: SceneDelegate? = scenes.lazy.map { $0.delegate as? SceneDelegate }
-            .compactMap{$0}.first
-        if let sc2 = sc2 {
-            sc2.restart()
-        } else {
-            print("SceneDelegate 2 not found")
-        }
-
     }
 
     func restartSwiftUIApp() {
-        
+        DispatchQueue.main.async {
+            self.key = .init()
+        }
     }
 }
 
@@ -135,6 +132,7 @@ extension Coordinator: BaseFlowInterface, ProfileFlowInterface, ChattingFlowInte
 
     func goLogoutFlow() {
         popToRoot()
+        restartSwiftUIApp()
         restartAppDelegateApp()
     }
 }
