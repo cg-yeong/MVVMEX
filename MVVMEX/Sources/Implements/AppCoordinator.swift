@@ -18,7 +18,6 @@ import ChattingFeature
 import MessageBoxInterface
 import MessageBoxFeature
 
-public typealias CoordinatorInterface = CoordinatorNavigationInterface & ProfileFlowInterface & ChattingFlowInterface & MessageBoxFlowInterface & BaseFlowInterface
 
 /// MainFeature 에 있어야 하기 때문에 App 레이어에 있는 AppDelegate, SceneDelegate 모르게 구현해보자
 final class Coordinator: ObservableObject, CoordinatorNavigationInterface {

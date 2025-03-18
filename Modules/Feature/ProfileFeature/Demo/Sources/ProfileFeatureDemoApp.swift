@@ -31,6 +31,10 @@ enum ProfilePage: Hashable, Codable {
 }
 
 class MockCoordinator: ObservableObject, ProfileFlowInterface {
+    func goLogoutFlow() {
+        
+    }
+    
 
     init() {}
 

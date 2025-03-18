@@ -26,8 +26,9 @@ public struct ContentView: View {
                     }
             }
 
-            OnBoarding(isIntro: $isIntro)
+            OnBoardingTabView(isOnBoarding: $isIntro)
                 .opacity(isIntro ? 1 : 0)
+                .id(coordinator.key)
         }
         .onChange(of: coordinator.key) { oldValue, newValue in
             if oldValue != newValue {

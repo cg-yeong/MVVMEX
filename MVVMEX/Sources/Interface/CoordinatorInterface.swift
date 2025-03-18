@@ -9,6 +9,18 @@ import Foundation
 import SwiftUI
 import Combine
 
+import BaseFeatureInterface
+import BaseFeature
+import CoordinatorFeatureInterface
+import ProfileDomainInterface
+import ProfileDomain
+import ProfileInterface
+import ProfileFeature
+import ChattingInterface
+import ChattingFeature
+import MessageBoxInterface
+import MessageBoxFeature
+
 public enum AppPages: Hashable, Codable {
 //    case root
     case profile
@@ -42,3 +54,5 @@ public protocol CoordinatorNavigationInterface: AnyObject {
     func remove(_ page: AppPages)
     func set(paths: [AppPages])
 }
+
+public typealias CoordinatorInterface = CoordinatorNavigationInterface & ProfileFlowInterface & ChattingFlowInterface & MessageBoxFlowInterface & BaseFlowInterface
