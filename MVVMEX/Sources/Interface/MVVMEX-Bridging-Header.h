@@ -9,6 +9,5 @@
 #define MVVMEX_Bridging_Header_h
 
 #import "BaseFeature/BaseFeature-Bridging-Header_h"
-#import "BaseFeature/WebViewJavascriptBridge.h"
 
 #endif /* MVVMEX_Bridging_Header_h */

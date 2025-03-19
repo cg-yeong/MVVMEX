@@ -32,6 +32,7 @@ public class YSWebViewStore: StoreProtocol {
 
     @Published private(set) var state: WebViewState = .init()
 
+    @MainActor
     public func action(_ action: Action) async {
         switch action {
         case .onAppear:

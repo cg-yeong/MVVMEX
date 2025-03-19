@@ -17,6 +17,7 @@ let project = Project(
                         .relativeToRoot("MVVMEX/Resources/MVVMEX-Info.plist")
                       ])
             ],
+            headers: .headers(project: ["MVVMEX/Sources/Interface/**/*.h"]),
             scripts: [
                 .pre(script: "if which swiftlint > /dev/null; then swiftlint --quiet; else echo 'warning: SwiftLint not installed'; fi",
                      name: "Run SwiftLint",
