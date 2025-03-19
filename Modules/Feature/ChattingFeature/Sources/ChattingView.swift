@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import CoordinatorFeatureInterface
 import ChattingInterface
 
 public struct ChattingWithOther<ViewModel: ChattingInterface>: View {

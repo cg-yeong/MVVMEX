@@ -9,10 +9,8 @@
 import Foundation
 import SwiftUI
 import BaseFeatureInterface
-import CoordinatorFeatureInterface
 
 import AppConfigDomainInterface
-import AppConfigDomain
 // path , push
 public class BaseViewModel: BaseInterface {
 

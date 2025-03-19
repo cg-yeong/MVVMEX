@@ -31,7 +31,14 @@ let project = Project(
 
                 Module.Domain.ProfileDomain.toTargetDependency,
                 Module.Domain.AppConfigDomain.toTargetDependency,
-            ]
+            ],
+            settings: .settings(
+                base: .init()
+                    .merging([
+                        "HEADER_SEARCH_PATHS": "$(SRCROOT)/Modules/Feature/BaseFeature/BridgeLibrary",
+                        "SWIFT_OBJC_BRIDGING_HEADER": "$(SRCROOT)/Modules/Feature/BaseFeature/PublicHeaders/BaseFeature-Bridging-Header.h"
+                    ])
+            )
         ),
         .target(
             name: "MVVMEXTests",

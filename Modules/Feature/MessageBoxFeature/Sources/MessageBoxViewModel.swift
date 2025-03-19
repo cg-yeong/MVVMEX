@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 import MessageBoxInterface
-import CoordinatorFeatureInterface
 
 public class MessageBoxViewModel: MessageBoxInterface, ObservableObject {
     @Published var isPresentingMM: Bool = false

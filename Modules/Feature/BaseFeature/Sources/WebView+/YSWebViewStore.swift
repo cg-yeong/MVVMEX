@@ -12,19 +12,32 @@ import BaseFeatureInterface
 public class YSWebViewStore: StoreProtocol {
     public typealias State = WebViewState
 
-    public typealias Action = UserAction
+    public typealias Action = WebAction
 
     public struct WebViewState: Equatable {
-        
+        var customUserAgent: String = ""
     }
 
-    public enum UserAction: Equatable {
-
+    public enum WebAction {
+        case onAppear
+        case registerBridgeHandlers(WebViewJavascriptBridge)
+        case saveUserAgent(String)
     }
 
     @Published private(set) var state: WebViewState = .init()
 
-    public func action(_ action: UserAction) async {
+    public func action(_ action: Action) async {
+        switch action {
+        case .onAppear:
+            break
+        case .registerBridgeHandlers:
+            break
+        default:
+            break
+        }
+    }
+
+    func registerHandlers() {
 
     }
 

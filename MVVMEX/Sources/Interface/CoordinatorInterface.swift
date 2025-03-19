@@ -11,7 +11,6 @@ import Combine
 
 import BaseFeatureInterface
 import BaseFeature
-import CoordinatorFeatureInterface
 import ProfileDomainInterface
 import ProfileDomain
 import ProfileInterface

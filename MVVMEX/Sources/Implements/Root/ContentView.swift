@@ -1,7 +1,6 @@
 import SwiftUI
 import BaseFeatureInterface
 import BaseFeature
-import CoordinatorFeatureInterface
 
 import AppConfigDomainInterface
 import AppConfigDomain

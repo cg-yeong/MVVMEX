@@ -8,7 +8,6 @@
 import SwiftUI
 import BaseFeatureInterface
 import BaseFeature
-import CoordinatorFeatureInterface
 import ProfileDomainInterface
 import ProfileDomain
 import ProfileInterface
@@ -17,7 +16,6 @@ import ChattingInterface
 import ChattingFeature
 import MessageBoxInterface
 import MessageBoxFeature
-
 
 /// MainFeature 에 있어야 하기 때문에 App 레이어에 있는 AppDelegate, SceneDelegate 모르게 구현해보자
 final class Coordinator: ObservableObject, CoordinatorNavigationInterface {
