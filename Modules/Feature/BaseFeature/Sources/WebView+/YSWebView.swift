@@ -9,15 +9,24 @@
 import SwiftUI
 import WebKit
 import UIKit
+import BaseFeatureInterface
 
 public struct YSWebView: UIViewRepresentable {
 
-    let url: URL
+    let url: URL?
+
     @Binding var isLoading: Bool
     @ObservedObject var store: YSWebViewStore = .init()
 
+    public init(url: URL? = nil, isLoading: Binding<Bool>) {
+        self.url = url
+        self._isLoading = isLoading
+    }
+
     @MainActor
     public func makeUIView(context: Context) -> WKWebView {
+        guard let url = url else { return WKWebView() }
+
         let webView = WKWebView(frame: .zero, configuration: makeWebViewConfiguration())
         webView.uiDelegate = context.coordinator
         webView.navigationDelegate = context.coordinator
@@ -28,27 +37,32 @@ public struct YSWebView: UIViewRepresentable {
         webView.scrollView.bounces = false
         webView.allowsLinkPreview = false
         webView.allowsBackForwardNavigationGestures = true
-//        webView.keyboardDisplayRequiresUserAction = false
 
         Task {
             let userAgentString = await putInfomation(webView)
             webView.customUserAgent = userAgentString
 
-//            await store.action(.registerBridgeHandlers(<#T##WebViewJavascriptBridge#>))
+            await store.action(.registerBridgeHandlers(context.coordinator))
         }
-        
+
+        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 60 * 60 * 10)
+        webView.load(request)
+
         return webView
     }
 
     public func updateUIView(_ webView: WKWebView, context: Context) {
-        let request = URLRequest(url: url)
-        webView.load(request)
+        print("## YSWebViewRepresentable UpdateUIView ##")
+        if context.coordinator.currentPage != store.state.webPage {
+            print("** YSWebViewRepresentable WebPage Changed **")
+            load(in: webView)
+            context.coordinator.currentPage = store.state.webPage
+        }
     }
 
-    func makeWebViewConfiguration() -> WKWebViewConfiguration {
-        let config = WKWebViewConfiguration()
-
-        return config
+    func load(in web: WKWebView) {
+        let request = URLRequest(url: store.state.webPage.url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 60 * 60 * 10)
+        web.load(request)
     }
 
     func getUserAgent(_ webview: WKWebView) async -> String {
@@ -75,6 +89,22 @@ public struct YSWebView: UIViewRepresentable {
         return userAgentString
     }
 
+    func makeWebViewConfiguration() -> WKWebViewConfiguration {
+        let preferences = WKPreferences()
+        preferences.javaScriptCanOpenWindowsAutomatically = true
+
+        let config = WKWebViewConfiguration()
+        config.processPool = WKProcessPool()
+        config.preferences = preferences
+        config.websiteDataStore = .default()
+        config.allowsInlineMediaPlayback = true
+        config.mediaTypesRequiringUserActionForPlayback = .all
+
+        let contentController = WKUserContentController()
+        config.userContentController = contentController
+
+        return config
+    }
 }
 
 extension YSWebView {
@@ -84,6 +114,7 @@ extension YSWebView {
 
     public class Coordinator: NSObject, WKUIDelegate, WKNavigationDelegate, UIScrollViewDelegate {
         var parent: YSWebView
+        var currentPage: YSWebViewURLRequest?
 
         init(parent: YSWebView) {
             self.parent = parent
@@ -125,5 +156,5 @@ extension YSWebView {
 }
 
 #Preview {
-    YSWebView(url: URL(string: "")!, isLoading: .constant(false))
+    YSWebView(url: URL(string: "www.naver.com")!, isLoading: .constant(false))
 }

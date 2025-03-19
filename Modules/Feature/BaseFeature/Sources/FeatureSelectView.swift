@@ -22,6 +22,10 @@ public struct FeatureSelectView<ViewModel: BaseInterface>: View {
         Text(viewModel.coordinatorPath.compactMap({ $0 }).joined())
 
         VStack {
+
+//            YSWebView(url: YSWebViewURLRequest.login.url, isLoading: .constant(false))
+//                .frame(width: 300, height: 300)
+
             Button {
                 viewModel.openProfile()
                 print("Coordinator open Profile Feature")

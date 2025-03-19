@@ -25,7 +25,7 @@ public protocol WebpageTargetType {
     var headers: [String: String]? { get }
 }
 
-public enum WebViewURLRequest: Equatable {
+public enum YSWebViewURLRequest: Equatable {
     case login
     case signUp
     case profileList
@@ -34,9 +34,21 @@ public enum WebViewURLRequest: Equatable {
     case mypage
 }
 
-extension WebViewURLRequest: WebpageTargetType {
+extension YSWebViewURLRequest: WebpageTargetType {
+
+    public var url: URL {
+        baseURL.appending(path: path)
+    }
+
     public var baseURL: URL {
-        return URL(string: "https://www.naver.com")!
+        switch self {
+        case .login:
+            return URL(string: "https://www.naver.com")!
+        case .mypage:
+            return URL(string: "https://www.google.com")!
+        default:
+            return URL(string: "https://www.naver.com")!
+        }
     }
 
     public var path: String {

@@ -8,6 +8,7 @@
 
 import SwiftUI
 import BaseFeatureInterface
+import WebKit
 
 public class YSWebViewStore: StoreProtocol {
     public typealias State = WebViewState
@@ -16,11 +17,16 @@ public class YSWebViewStore: StoreProtocol {
 
     public struct WebViewState: Equatable {
         var customUserAgent: String = ""
+        var webPage: YSWebViewURLRequest = .login
+    }
+
+    public struct WebBridgeState: Equatable {
+        var bridge: WebViewJavascriptBridge? = nil
     }
 
     public enum WebAction {
         case onAppear
-        case registerBridgeHandlers(WebViewJavascriptBridge)
+        case registerBridgeHandlers(WKNavigationDelegate)
         case saveUserAgent(String)
     }
 
@@ -29,9 +35,12 @@ public class YSWebViewStore: StoreProtocol {
     public func action(_ action: Action) async {
         switch action {
         case .onAppear:
+            print("YSwebview on appear")
             break
         case .registerBridgeHandlers:
-            break
+            print("YSwebview register handlers")
+            state.webPage = .mypage
+            registerHandlers()
         default:
             break
         }
