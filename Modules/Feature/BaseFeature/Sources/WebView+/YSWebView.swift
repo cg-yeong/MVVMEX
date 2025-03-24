@@ -11,6 +11,10 @@ import WebKit
 import UIKit
 import BaseFeatureInterface
 
+protocol YSWebViewDelegate {
+
+}
+
 public struct YSWebView: UIViewRepresentable {
 
     let url: URL?
@@ -27,26 +31,34 @@ public struct YSWebView: UIViewRepresentable {
     public func makeUIView(context: Context) -> WKWebView {
         guard let url = url else { return WKWebView() }
 
-        let webView = WKWebView(frame: .zero, configuration: makeWebViewConfiguration())
+//        let webView = WKWebView(frame: .zero, configuration: makeWebViewConfiguration())
+//        webView.uiDelegate = context.coordinator
+//        webView.navigationDelegate = context.coordinator
+//        webView.scrollView.showsVerticalScrollIndicator = false
+//        webView.scrollView.showsHorizontalScrollIndicator = false
+//        webView.scrollView.delegate = context.coordinator
+//        webView.translatesAutoresizingMaskIntoConstraints = false
+//        webView.scrollView.bounces = false
+//        webView.allowsLinkPreview = false
+//        webView.allowsBackForwardNavigationGestures = true
+//
+//        Task {
+//            let userAgentString = await putInfomation(webView)
+//            webView.customUserAgent = userAgentString
+//
+//            await store.action(.registerBridgeHandlers(for: webView, sender: context.coordinator))
+//        }
+        let webView = store.webService.createWebView()
         webView.uiDelegate = context.coordinator
         webView.navigationDelegate = context.coordinator
-        webView.scrollView.showsVerticalScrollIndicator = false
-        webView.scrollView.showsHorizontalScrollIndicator = false
         webView.scrollView.delegate = context.coordinator
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        webView.scrollView.bounces = false
-        webView.allowsLinkPreview = false
-        webView.allowsBackForwardNavigationGestures = true
-
-        Task {
-            let userAgentString = await putInfomation(webView)
-            webView.customUserAgent = userAgentString
-
-            await store.action(.registerBridgeHandlers(context.coordinator))
-        }
 
         let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 60 * 60 * 10)
         webView.load(request)
+
+        Task {
+            await store.action(.registerBridgeHandlers(for: webView, sender: context.coordinator))
+        }
 
         return webView
     }
@@ -120,6 +132,27 @@ extension YSWebView {
             self.parent = parent
         }
 
+
+        // MARK: YSWebView Coordinator Delegate
+        // MARK: WKUIDelegate
+        public func webViewDidClose(_ webView: WKWebView) {
+
+        }
+        public func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping @MainActor () -> Void) {
+
+        }
+        public func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping @MainActor (Bool) -> Void) {
+
+        }
+        public func webView(
+            _ webView: WKWebView,
+            runJavaScriptTextInputPanelWithPrompt prompt: String,
+            defaultText: String?, initiatedByFrame frame: WKFrameInfo,
+            completionHandler: @escaping @MainActor (String?) -> Void) {
+
+        }
+
+        // MARK: WKNavigationDelegate
         /// 웹 페이지 시작
         public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
             parent.isLoading = true
@@ -128,7 +161,12 @@ extension YSWebView {
         public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             parent.isLoading = false
         }
+        public func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
 
+        }
+        public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: any Error) {
+
+        }
         @MainActor
         public func webView(
             _ webView: WKWebView,
@@ -148,6 +186,14 @@ extension YSWebView {
             return .allow
         }
 
+        public func webView(
+            _ webView: WKWebView,
+            requestMediaCapturePermissionFor origin: WKSecurityOrigin,
+            initiatedByFrame frame: WKFrameInfo,
+            type: WKMediaCaptureType,
+            decisionHandler: @escaping @MainActor (WKPermissionDecision) -> Void) {
+            decisionHandler(.prompt)
+        }
         public func scrollViewDidScroll(_ scrollView: UIScrollView) {
             let verticalIndicator = scrollView.subviews[scrollView.subviews.count - 1] as? UIImageView
             verticalIndicator?.backgroundColor = .black

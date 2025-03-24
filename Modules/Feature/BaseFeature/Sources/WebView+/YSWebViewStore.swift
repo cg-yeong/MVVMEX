@@ -26,11 +26,13 @@ public class YSWebViewStore: StoreProtocol {
 
     public enum WebAction {
         case onAppear
-        case registerBridgeHandlers(WKNavigationDelegate)
+        case registerBridgeHandlers(for: WKWebView, sender: WKUIDelegate)
         case saveUserAgent(String)
     }
 
     @Published private(set) var state: WebViewState = .init()
+    
+    private(set) var webService: JavascriptBridgeService = .init()
 
     @MainActor
     public func action(_ action: Action) async {
@@ -38,10 +40,10 @@ public class YSWebViewStore: StoreProtocol {
         case .onAppear:
             print("YSwebview on appear")
             break
-        case .registerBridgeHandlers:
-            print("YSwebview register handlers")
-            state.webPage = .mypage
-            registerHandlers()
+        case .registerBridgeHandlers(let webView, let sender):
+            webService.registerHandlers(for: webView, sender: sender)
+        case .saveUserAgent(let userAgent):
+            break
         default:
             break
         }
