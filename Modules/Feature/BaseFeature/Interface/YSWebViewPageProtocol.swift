@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import WebKit
 
 public struct HTTPMethod: RawRepresentable, Equatable, Hashable, Sendable {
     static let get = HTTPMethod(rawValue: "GET")
@@ -43,11 +44,11 @@ extension YSWebViewURLRequest: WebpageTargetType {
     public var baseURL: URL {
         switch self {
         case .login:
-            return URL(string: "https://www.naver.com")!
+            return URL(string: "www.naver.com")!
         case .mypage:
-            return URL(string: "https://www.google.com")!
+            return URL(string: "www.naver.com")!
         default:
-            return URL(string: "https://www.naver.com")!
+            return URL(string: "www.naver.com")!
         }
     }
 
@@ -65,4 +66,12 @@ extension YSWebViewURLRequest: WebpageTargetType {
         return ["Content-Type": "application/json", "Cookie": ""]
     }
 
+}
+
+/// 뷰에서 WebView가 뭔가 해야할 일 있을때 사용
+@objc public protocol WKWebViewDelegate {
+    @objc optional func webViewDidFinishLoad(_ webView: WKWebView)
+    @objc optional func webViewDidStartLoad(_ webView: WKWebView)
+    @objc optional func webView(_ webView: WKWebView, didFailLoadWithError error: Error)
+    @objc optional func getStartPage() -> URLRequest?
 }

@@ -35,6 +35,7 @@ let project = Project(
 
                 Module.Domain.ProfileDomain.toTargetDependency,
                 Module.Domain.AppConfigDomain.toTargetDependency,
+                .package(product: "ComposableArchitecture", type: .runtime)
             ],
             settings: .settings(
                 base: .init()

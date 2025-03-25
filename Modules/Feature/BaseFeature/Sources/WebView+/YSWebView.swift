@@ -19,36 +19,17 @@ public struct YSWebView: UIViewRepresentable {
 
     let url: URL?
 
-    @Binding var isLoading: Bool
     @ObservedObject var store: YSWebViewStore = .init()
 
-    public init(url: URL? = nil, isLoading: Binding<Bool>) {
+    public init(url: URL? = nil) {
         self.url = url
-        self._isLoading = isLoading
     }
 
     @MainActor
     public func makeUIView(context: Context) -> WKWebView {
         guard let url = url else { return WKWebView() }
 
-//        let webView = WKWebView(frame: .zero, configuration: makeWebViewConfiguration())
-//        webView.uiDelegate = context.coordinator
-//        webView.navigationDelegate = context.coordinator
-//        webView.scrollView.showsVerticalScrollIndicator = false
-//        webView.scrollView.showsHorizontalScrollIndicator = false
-//        webView.scrollView.delegate = context.coordinator
-//        webView.translatesAutoresizingMaskIntoConstraints = false
-//        webView.scrollView.bounces = false
-//        webView.allowsLinkPreview = false
-//        webView.allowsBackForwardNavigationGestures = true
-//
-//        Task {
-//            let userAgentString = await putInfomation(webView)
-//            webView.customUserAgent = userAgentString
-//
-//            await store.action(.registerBridgeHandlers(for: webView, sender: context.coordinator))
-//        }
-        let webView = store.webService.createWebView()
+        let webView = WKWebView(frame: .zero, configuration: .init())// store.webService.createWebView()
         webView.uiDelegate = context.coordinator
         webView.navigationDelegate = context.coordinator
         webView.scrollView.delegate = context.coordinator
@@ -57,7 +38,7 @@ public struct YSWebView: UIViewRepresentable {
         webView.load(request)
 
         Task {
-            await store.action(.registerBridgeHandlers(for: webView, sender: context.coordinator))
+//            await store.action(.registerBridgeHandlers(for: webView, sender: context.coordinator))
         }
 
         return webView
@@ -73,7 +54,7 @@ public struct YSWebView: UIViewRepresentable {
     }
 
     func load(in web: WKWebView) {
-        let request = URLRequest(url: store.state.webPage.url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 60 * 60 * 10)
+        let request = URLRequest(url: url!, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 60 * 60 * 10)
         web.load(request)
     }
 
@@ -117,9 +98,7 @@ public struct YSWebView: UIViewRepresentable {
 
         return config
     }
-}
 
-extension YSWebView {
     public func makeCoordinator() -> Coordinator {
         return Coordinator(parent: self)
     }
@@ -155,11 +134,11 @@ extension YSWebView {
         // MARK: WKNavigationDelegate
         /// 웹 페이지 시작
         public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-            parent.isLoading = true
+
         }
         /// 웹 페이지 로드 완료
         public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-            parent.isLoading = false
+
         }
         public func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
 
@@ -201,6 +180,7 @@ extension YSWebView {
     }
 }
 
+
 #Preview {
-    YSWebView(url: URL(string: "www.naver.com")!, isLoading: .constant(false))
+    YSWebView(url: URL(string: "www.naver.com")!)
 }

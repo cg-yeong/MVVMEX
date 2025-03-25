@@ -23,8 +23,9 @@ public struct FeatureSelectView<ViewModel: BaseInterface>: View {
 
         VStack {
 
-//            YSWebView(url: YSWebViewURLRequest.login.url, isLoading: .constant(false))
-//                .frame(width: 300, height: 300)
+            YSWebView(url: URL(string: "https://www.naver.com")!)
+                .background(.blue)
+                .frame(width: 300, height: 300)
 
             Button {
                 viewModel.openProfile()
@@ -40,24 +41,11 @@ public struct FeatureSelectView<ViewModel: BaseInterface>: View {
             .padding(.horizontal, 12)
 
             Button {
-                viewModel.openMessageBox()
-                print("Coordinator open MessageBox Feature")
-            } label: {
-                Text("MessageBox")
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 80)
-                    .background(.yellow)
-                    .clipShape(Capsule())
-            }
-            .padding(.horizontal, 12)
-
-            Button {
                 // coordinator.open profile
-                viewModel.openProfile()
-                print("Coordinator open Chatting Feature")
+                viewModel.openWebView("web")
+                print("Coordinator open Web Feature")
             } label: {
-                Text("Chatting")
+                Text("Web")
                     .padding()
                     .frame(maxWidth: .infinity)
                     .frame(height: 80)

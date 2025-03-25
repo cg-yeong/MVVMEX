@@ -20,6 +20,8 @@ import MessageBoxFeature
 import BaseFeatureInterface
 import BaseFeature
 
+import ComposableArchitecture
+
 protocol DependencyInjectable: AnyObject {
     associatedtype Container
     var container: Container { get }
@@ -62,6 +64,12 @@ class DIContainer {
             let repository = WebSettingRepositoryImpl()
             let usecase: FetchWebSettingUsecase = FetchWebSettingUsecaseImpl(webSettingRepository: repository)
             return BaseViewModel(flow: coordinator, webSettingUsecase: usecase)
+        }
+    }
+
+    func makeFFWebStore(coordinator: CoordinatorInterface) -> StoreOf<FFWebViewStore> {
+        return StoreOf<FFWebViewStore>(initialState: FFWebViewStore.State()) {
+            FFWebViewStore()
         }
     }
 }

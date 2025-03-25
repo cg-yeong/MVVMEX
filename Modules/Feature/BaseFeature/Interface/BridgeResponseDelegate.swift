@@ -26,4 +26,5 @@ extension BridgeResponseDelegate {
     public func aLogin(message: JSON) {}
     public func sLogin(message: JSON) {}
     public func fWin(message: JSON) {}
+    public func oWin(message: JSON) {}
 }

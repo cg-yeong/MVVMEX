@@ -21,7 +21,7 @@ public class YSWebViewStore: StoreProtocol {
     }
 
     public struct WebBridgeState: Equatable {
-        var bridge: WebViewJavascriptBridge? = nil
+//        var bridge: WebViewJavascriptBridge? = nil
     }
 
     public enum WebAction {

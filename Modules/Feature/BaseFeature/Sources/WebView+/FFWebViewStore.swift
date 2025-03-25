@@ -7,13 +7,57 @@
 //
 
 import SwiftUI
+import WebKit
+import ComposableArchitecture
+import BaseFeatureInterface
 
-struct FFWebViewStore: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+@Reducer
+public struct FFWebViewStore: Reducer {
+
+    @Dependency(\.javascriptBridgeService) public var webService
+
+    @ObservableState
+    public struct State: Equatable {
+        var toLoadURL: URLRequest?
+        public init() {}
+    }
+
+    public enum Action {
+        case onAppear
+        case directURL(String)
+        case registerBridgeHandlers(for: WKWebView, sender: WKUIDelegate)
+        case setDelegateBridge(BridgeResponseDelegate)
+    }
+
+    public init() {
+    }
+
+    
+    public func reduce(into state: inout State, action: Action) -> Effect<Action> {
+        switch action {
+        case .onAppear:
+            return .run { send in
+                await send(.directURL("https://m.naver.com"))
+//                try await Task.sleep(nanoseconds: 3 * 1_000_000_000)
+            }
+
+        case .directURL(let absolutePath):
+            let request = URLRequest(url: URL(string: absolutePath)!,
+                                     cachePolicy: .returnCacheDataElseLoad,
+                                     timeoutInterval: 60 * 60 * 10)
+            state.toLoadURL = request
+            return .none
+
+        case .registerBridgeHandlers(let webView, let sender):
+            webService.registerHandlers(for: webView, sender: sender)
+            return .none
+
+        case .setDelegateBridge(let object):
+            webService.responseDelegate = object
+            return .none
+
+        }
     }
 }
 
-#Preview {
-    FFWebViewStore()
-}
+

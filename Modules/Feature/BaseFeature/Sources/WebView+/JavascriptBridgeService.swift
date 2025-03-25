@@ -10,6 +10,11 @@ import Foundation
 import SwiftyJSON
 import WebKit
 import BaseFeatureInterface
+import Dependencies
+
+extension JavascriptBridgeService: DependencyKey {
+    public static let liveValue = JavascriptBridgeService()
+}
 
 public class JavascriptBridgeService: NSObject {
 
@@ -39,9 +44,9 @@ public class JavascriptBridgeService: NSObject {
         }
 
         putInformation(webView) { customUserAgent in
-            webView.customUserAgent = customUserAgent
+//            webView.customUserAgent = customUserAgent
         }
-
+        print("\(#function) createWebView")
         return webView
     }
 
@@ -71,7 +76,7 @@ public class JavascriptBridgeService: NSObject {
                 completion(result)
             } else {
                 completion("")
-                print("## WebView에서 UserAgent 가져오지 못했다.")
+                print("## WebView에서 UserAgent 가져오지 못했다.: \(error?.localizedDescription)")
             }
         }
     }
@@ -123,10 +128,10 @@ public class JavascriptBridgeService: NSObject {
 
 extension JavascriptBridgeService {
     func initBridgeHandlers() {
-        bridgeHandlers?[BridgeResponseCMD.stateLogin.rawValue] = responseDelegate?.stateLogin
-        bridgeHandlers?[BridgeResponseCMD.socialLogin.rawValue] = responseDelegate?.socialLogin
-        bridgeHandlers?[BridgeResponseCMD.finishWin.rawValue] = responseDelegate?.finishWin
-        bridgeHandlers?[BridgeResponseCMD.openWin.rawValue] = responseDelegate?.openWin
+        bridgeHandlers?[BridgeResponseCMD.aLogin.rawValue] = responseDelegate?.aLogin
+        bridgeHandlers?[BridgeResponseCMD.sLogin.rawValue] = responseDelegate?.sLogin
+        bridgeHandlers?[BridgeResponseCMD.fWin.rawValue] = responseDelegate?.fWin
+        bridgeHandlers?[BridgeResponseCMD.oWin.rawValue] = responseDelegate?.oWin
     }
 }
 

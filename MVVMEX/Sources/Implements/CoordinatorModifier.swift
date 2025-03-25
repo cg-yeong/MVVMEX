@@ -19,6 +19,8 @@ import BaseFeature
 import MegaphoneInterface
 import MMFeature
 
+import ComposableArchitecture
+
 public struct CoordinatorModifier: ViewModifier {
     var coordinator: CoordinatorInterface
     var container: DIContainer
@@ -61,7 +63,18 @@ public struct CoordinatorModifier: ViewModifier {
                         fatalError()
                     }
                 case .webView:
-                    SUWebView(coordinator: coordinator)
+                    let store: StoreOf<FFWebViewStore> = AppDelegate.container.makeFFWebStore(coordinator: coordinator)
+//                    SUWebView(store: store, coordinator: coordinator)
+                    FFWebView(store: store)
+                        .background(
+                            Color.yellow.opacity(0.5)
+                                .onTapGesture {
+                                    coordinator.goBackFlow()
+                                }
+                        )
+                        .onAppear {
+                            store.send(.onAppear)
+                        }
                         .navigationBarBackButtonHidden()
                         .navigationTitle("")
                         .navigationBarHidden(true)

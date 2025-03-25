@@ -31,7 +31,8 @@ let project = Project.module(
             ),
             scripts: [.swiftLint],
             dependencies: [
-                .project(target: "BaseFeatureInterface", path: .relativeToFeature("BaseFeature"))
+                .project(target: "BaseFeatureInterface", path: .relativeToFeature("BaseFeature")),
+                .package(product: "ComposableArchitecture", type: .runtime)
             ],
             settings: .settings(
                 base: SettingsDictionary()

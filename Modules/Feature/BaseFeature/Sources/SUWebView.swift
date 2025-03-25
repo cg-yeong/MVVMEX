@@ -9,44 +9,54 @@
 import SwiftUI
 import Combine
 import BaseFeatureInterface
+import ComposableArchitecture
 
 public struct SUWebView: View {
+    let store: StoreOf<FFWebViewStore>
     var coordinator: any BaseFlowInterface
 
-    public init(coordinator: any BaseFlowInterface) {
+    public init(store: StoreOf<FFWebViewStore>, coordinator: any BaseFlowInterface) {
+        self.store = store
         self.coordinator = coordinator
     }
 
     public var body: some View {
-        Color.red.opacity(0.5)
-            .overlay {
-                VStack {
-                    Button {
-                        coordinator.goWebListFlow(page: "alim")
-                    } label: {
-                        Text("GO Profile")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(.blue.opacity(0.5))
-                            .clipShape(Capsule())
-                    }
-                    .padding(.horizontal, 12)
-
-                    Button {
-                        coordinator.goMessageBoxFlow()
-                    } label: {
-                        Text("GO MessageBox")
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(.blue.opacity(0.5))
-                            .clipShape(Capsule())
-                    }
-                    .padding(.horizontal, 12)
+        ZStack {
+            FFWebView(store: store)
+                .background(
+                    Color.yellow.opacity(0.5)
+                        .onTapGesture {
+                            coordinator.goBackFlow()
+                        }
+                )
+                .onAppear {
+                    store.send(.onAppear)
                 }
-            }
-            .onTapGesture {
-                coordinator.goBackFlow()
-            }
+
+//            VStack {
+//                Button {
+//                    coordinator.goWebListFlow(page: "alim")
+//                } label: {
+//                    Text("GO Profile")
+//                        .padding()
+//                        .frame(maxWidth: .infinity)
+//                        .background(.blue.opacity(0.5))
+//                        .clipShape(Capsule())
+//                }
+//                .padding(.horizontal, 12)
+//
+//                Button {
+//                    coordinator.goMessageBoxFlow()
+//                } label: {
+//                    Text("GO MessageBox")
+//                        .padding()
+//                        .frame(maxWidth: .infinity)
+//                        .background(.blue.opacity(0.5))
+//                        .clipShape(Capsule())
+//                }
+//                .padding(.horizontal, 12)
+//            }
+        }
     }
 
 }
