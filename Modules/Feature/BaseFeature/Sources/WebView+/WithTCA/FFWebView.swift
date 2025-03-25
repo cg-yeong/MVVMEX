@@ -81,6 +81,14 @@ public struct FFWebView: UIViewRepresentable {
 
             self.store.send(.setDelegateBridge(self))
         }
+
+        /// WKNavigation Delegate 페이지 로딩시 네트워크 상태 체크
+        public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+
+            // ver.Yeoboya: 개발서버인 경우(://devm), Reachability Cellular, Wifi, 사내망체크API -> true : false(실서버로 이동; Startpage UserDefaults 제거) popup이면 내려주고
+            // ver.Honey: get서버리스트[모델] 받아서 뷰 만들어주고 서버이동하면 앱 서버 URL 변경; Userdefaults URL 설정 변경; 로그인데이터 지우기; 앱 재시작;
+
+        }
     }
 
 }
