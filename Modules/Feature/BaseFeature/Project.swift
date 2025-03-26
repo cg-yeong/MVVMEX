@@ -22,13 +22,14 @@ let project = Project.module(
             bundleId: "com.yeong.exMVVMC.BaseFeature",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .default,
-            sources: ["Sources/**", "BridgeLibrary/**", "PublicHeaders/**"],
+            sources: ["Sources/**"],
             resources: nil,
-            headers: .headers(
-                public: ["PublicHeaders/**"],
-                private: ["BridgeLibrary/**"],
-                project: ["BridgeLibrary/**"]
-            ),
+//            headers: .headers(
+//                public: ["PublicHeaders/**"],
+//                private: ["BridgeLibrary/**"],
+//                project: ["BridgeLibrary/**"]
+//            ),
+            headers: nil,
             scripts: [.swiftLint],
             dependencies: [
                 .project(target: "BaseFeatureInterface", path: .relativeToFeature("BaseFeature")),

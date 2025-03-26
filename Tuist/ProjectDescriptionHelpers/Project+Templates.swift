@@ -19,6 +19,7 @@ public enum Module {
     public enum Domain: String, CaseIterable {
         case ProfileDomain
         case AppConfigDomain
+        case WebService
 
         public var toTargetDependency: TargetDependency {
             .project(target: self.rawValue, path: .relativeToDomain(self.rawValue))
