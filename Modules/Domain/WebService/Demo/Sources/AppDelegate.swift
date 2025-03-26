@@ -37,7 +37,7 @@ struct DemoApp: SwiftUI.App {
 
     var body: some Scene {
         WindowGroup {
-            Text("App_ContentView")
+            DemoWebView()
         }
     }
 }

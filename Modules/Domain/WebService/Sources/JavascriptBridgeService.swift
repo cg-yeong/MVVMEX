@@ -24,7 +24,7 @@ public class JavascriptBridgeService: NSObject {
     var responseHandlerName: String = "callFromWeb"
     var requesthandlerName: String = "$.webScript"
 
-    func registerHandlers(for webView: WKWebView, sender: WKUIDelegate) {
+    public func registerHandlers(for webView: WKWebView, sender: WKUIDelegate) {
         bridge = WebViewJavascriptBridge(forWebView: webView)
         bridge?.setWebViewDelegate(sender)
 
