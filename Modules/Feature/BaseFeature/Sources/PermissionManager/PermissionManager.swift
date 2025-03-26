@@ -6,7 +6,7 @@
 //  Copyright © 2025 com.yeong. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import AppTrackingTransparency
 import Photos
 import CoreLocation

@@ -14,17 +14,21 @@ public enum BridgeResponseCMD: String, CaseIterable {
     case sLogin
     case fWin
     case oWin
+    case getAdId
 }
 
 public protocol BridgeResponseDelegate: AnyObject {
-    func aLogin(message: JSON)
-    func sLogin(message: JSON)
-    func fWin(message: JSON)
-    func oWin(message: JSON)
+    typealias BridgeCallback = (Any?) -> Void
+    func aLogin(message: JSON, _ callback: BridgeCallback)
+    func sLogin(message: JSON, _ callback: BridgeCallback)
+    func fWin(message: JSON, _ callback: BridgeCallback)
+    func oWin(message: JSON, _ callback: BridgeCallback)
+    func getAdId(message: JSON, _ callback: BridgeCallback)
 }
 extension BridgeResponseDelegate {
-    public func aLogin(message: JSON) {}
-    public func sLogin(message: JSON) {}
-    public func fWin(message: JSON) {}
-    public func oWin(message: JSON) {}
+    public func aLogin(message: JSON, _ callback: BridgeCallback) {}
+    public func sLogin(message: JSON, _ callback: BridgeCallback) {}
+    public func fWin(message: JSON, _ callback: BridgeCallback) {}
+    public func oWin(message: JSON, _ callback: BridgeCallback) {}
+//    public func getAdId(message: JSON, _ callback: BridgeCallback) {}
 }

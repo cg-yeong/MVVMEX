@@ -23,9 +23,9 @@ public struct FeatureSelectView<ViewModel: BaseInterface>: View {
 
         VStack {
 
-            YSWebView(url: URL(string: "https://www.naver.com")!)
-                .background(.blue)
-                .frame(width: 300, height: 300)
+//            YSWebView(url: URL(string: "https://www.naver.com")!)
+//                .background(.blue)
+//                .frame(width: 300, height: 300)
 
             Button {
                 viewModel.openProfile()

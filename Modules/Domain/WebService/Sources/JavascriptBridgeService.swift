@@ -19,7 +19,7 @@ public class JavascriptBridgeService: NSObject {
         }
     }
     var bridge: WebViewJavascriptBridge?
-    var bridgeHandlers: [String: (JSON) -> Void]? = [:]
+    var bridgeHandlers: [String: (JSON, @escaping WVJBResponseCallback) -> Void]? = [:]
 
     var responseHandlerName: String = "callFromWeb"
     var requesthandlerName: String = "$.webScript"
@@ -33,12 +33,13 @@ public class JavascriptBridgeService: NSObject {
             print("수신 브릿지 with 데이터:\n\(json)\n")
 
             if let router = self?.bridgeHandlers?[json["cmd"].stringValue] {
-                router(json)
+                router(json, responseCallback ?? { _ in })
             } else {
 
             }
         }
         bridge?.registerHandler(responseHandlerName, handler: handler)
+        bridge?.registerHandler("fileChooserFromWeb", handler: handler)
         print("RegisterHandlers")
     }
 
@@ -47,6 +48,7 @@ public class JavascriptBridgeService: NSObject {
         bridgeHandlers?[BridgeResponseCMD.sLogin.rawValue] = responseDelegate?.sLogin
         bridgeHandlers?[BridgeResponseCMD.fWin.rawValue] = responseDelegate?.fWin
         bridgeHandlers?[BridgeResponseCMD.oWin.rawValue] = responseDelegate?.oWin
+        bridgeHandlers?[BridgeResponseCMD.getAdId.rawValue] = responseDelegate?.getAdId
     }
 
 }

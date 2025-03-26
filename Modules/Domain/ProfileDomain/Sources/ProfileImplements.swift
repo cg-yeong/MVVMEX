@@ -30,6 +30,7 @@ public struct FetchMemberProfileUsecaseImpl: FetchMemberProfileUsecase {
 
 /// JSON 으로 MemberEntity 대체
 final public class MemberProfileRepositoryImpl: MemberProfileRepository {
+//    let network: Networkinterface
     public init() {}
     public func fetchMemberInfo() async throws -> JSON {
         let (data, response) = try await URLSession.shared.data(from: URL(string: "https://randomuser.me/api")!)

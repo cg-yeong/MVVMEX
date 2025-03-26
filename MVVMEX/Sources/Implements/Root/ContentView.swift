@@ -1,7 +1,8 @@
 import SwiftUI
+import WebKit
 import BaseFeatureInterface
 import BaseFeature
-
+import UIKit
 import AppConfigDomainInterface
 import AppConfigDomain
 
@@ -17,17 +18,18 @@ public struct ContentView: View {
     public var body: some View {
         ZStack {
             NavigationStack(path: coordinator.bindingPath) {
-//                YSWebView(url: URL(string: "https://www.naver.com")!)
-//                let store = AppDelegate.container.makeFFWebStore(coordinator: coordinator)
+                let store = AppDelegate.container.makeFFWebStore(coordinator: coordinator)
 //                FFWebView(store: store)
 //                    .modifier(CoordinatorModifier(coordinator, with: AppDelegate.container))
 
 
                 let viewModel = DIContainer.shared.makeBaseViewModel(coordinator: coordinator)
-                FeatureSelectView(viewModel: viewModel)
+//                FeatureSelectView(viewModel: viewModel)
+                FFWebView(store: store)
                     .modifier(CoordinatorModifier(coordinator, with: AppDelegate.container))
                     .task {
                         await viewModel.fetchWebSetting()
+//                        coordinator.push(.webView("navigationYeoboya"))
                     }
 
             }

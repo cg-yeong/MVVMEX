@@ -14,9 +14,3 @@ import WebService
 struct JSBridgeServiceDependency {
     static var liveValue: JavascriptBridgeService = JavascriptBridgeService()
 }
-//extension DependencyValues {
-//    var javascriptBridgeService: JavascriptBridgeService {
-//        get { self[JavascriptBridgeService.self] }
-//        set { self[JavascriptBridgeService.self] = newValue }
-//    }
-//}

@@ -12,6 +12,7 @@ import UIKit
 import SwiftyJSON
 import WebServiceInterface
 import WebService
+import AdSupport
 
 struct DemoWebView: UIViewRepresentable {
     typealias UIViewType = WKWebView
@@ -32,6 +33,7 @@ struct DemoWebView: UIViewRepresentable {
             let request = URLRequest(url: URL(string: "")!)
             webView.load(request)
 
+            webservice.responseDelegate = context.coordinator
             webservice.registerHandlers(for: webView, sender: context.coordinator)
         }
 
@@ -47,6 +49,12 @@ struct DemoWebView: UIViewRepresentable {
     }
 
     class Coordinator: NSObject, WKUIDelegate, WKNavigationDelegate, UIScrollViewDelegate, BridgeResponseDelegate {
+        func getAdId(message: SwiftyJSON.JSON, _ callback: (Any?) -> Void) {
+            print("** \(#file) getAdId : \(message)")
+            let adId = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+            print("** \(#file) sendAdId: \(adId)")
+        }
+        
 
         var parent: DemoWebView
         var currentURL: URL?

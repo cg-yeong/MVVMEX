@@ -21,11 +21,6 @@ let project = Project.module(
             infoPlist: .default,
             sources: ["Sources/**", "PublicHeaders/**"],
             resources: nil,
-//            headers: .headers(
-//                public: ["PublicHeaders/**"]
-////                private: ["BridgeLibrary/**"],
-////                project: ["BridgeLibrary/**"]
-//            ),
             headers: nil,
             scripts: [.swiftLint],
             dependencies: [
@@ -36,11 +31,6 @@ let project = Project.module(
             ],
             settings: .settings(
                 base: SettingsDictionary()
-                    .merging([
-                        "HEADER_SEARCH_PATHS": "$(SRCROOT)/../../Domain/WebService/BridgeLibrary",
-                        "SWIFT_OBJC_BRIDGING_HEADER": "$(SRCROOT)/../../Domain/WebService/PublicHeaders/WebService-Bridging-Header.h"
-                    ])
-//                    .swiftObjcBridgingHeaderPath("PublicHeaders/BaseFeature-Bridging-Header.h")
                     .otherLinkerFlags(["$(inherited) -Objc"]),
                 configurations: .init(),
                 defaultSettings: .recommended

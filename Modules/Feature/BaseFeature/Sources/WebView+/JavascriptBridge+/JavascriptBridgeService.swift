@@ -13,8 +13,19 @@ import Dependencies
 import BaseFeatureInterface
 import WebService
 
+public struct JavascriptBridgeServiceDependency {
+    public static var liveValue = JavascriptBridgeService()
+}
+
 public struct JavascriptBridgeServiceWrapper: DependencyKey {
     public static var liveValue = JavascriptBridgeService()
+//    public static var liveValue = JavascriptBridgeServiceWrapper(service: JavascriptBridgeService())
+
+    let service: JavascriptBridgeService
+
+    public init(service: JavascriptBridgeService) {
+        self.service = service
+    }
 }
 
 //extension JavascriptBridgeService: DependencyKey {

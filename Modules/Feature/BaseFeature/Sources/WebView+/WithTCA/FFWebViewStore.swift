@@ -11,6 +11,7 @@ import WebKit
 import ComposableArchitecture
 import BaseFeatureInterface
 import Dependencies
+import WebServiceInterface
 import WebService
 
 @Reducer
@@ -51,12 +52,20 @@ public struct FFWebViewStore: Reducer {
             return .none
 
         case .registerBridgeHandlers(let webView, let sender):
-            webService.registerHandlers(for: webView, sender: sender)
-            return .none
+            return .run { @MainActor _ in
+                webService.registerHandlers(for: webView, sender: sender)
+                print("## Set registerHandler to Context Coordinator")
+            }
+//            webService.registerHandlers(for: webView, sender: sender)
+//            return .none
 
         case .setDelegateBridge(let object):
+            return .run { _ in
+                webService.responseDelegate = object
+                print("## Set ResponseDelegate to Context Coordinator")
+            }
 //            webService.responseDelegate = object
-            return .none
+//            return .none
 
         }
     }
