@@ -10,9 +10,9 @@ import SwiftUI
 import WebKit
 import ComposableArchitecture
 import BaseFeatureInterface
-
 import Dependencies
-extension JavascriptBridgeService
+import WebService
+
 @Reducer
 public struct FFWebViewStore: Reducer {
 

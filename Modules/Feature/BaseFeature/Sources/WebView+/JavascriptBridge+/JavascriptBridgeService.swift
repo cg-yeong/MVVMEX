@@ -1,17 +1,22 @@
-////
-////  JavascriptBridgeService.swift
-////  BaseFeature
-////
-////  Created by root0 on 3/24/25.
-////  Copyright © 2025 com.yeong. All rights reserved.
-////
 //
-//import Foundation
-//import SwiftyJSON
-//import WebKit
-//import BaseFeatureInterface
-//import Dependencies
+//  JavascriptBridgeService.swift
+//  BaseFeature
 //
+//  Created by root0 on 3/24/25.
+//  Copyright © 2025 com.yeong. All rights reserved.
+//
+
+import Foundation
+import SwiftyJSON
+import WebKit
+import Dependencies
+import BaseFeatureInterface
+import WebService
+
+public struct JavascriptBridgeServiceWrapper: DependencyKey {
+    public static var liveValue = JavascriptBridgeService()
+}
+
 //extension JavascriptBridgeService: DependencyKey {
 //    public static let liveValue = JavascriptBridgeService()
 //}

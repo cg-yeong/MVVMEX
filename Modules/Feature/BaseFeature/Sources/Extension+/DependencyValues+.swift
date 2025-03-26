@@ -8,12 +8,11 @@
 
 import Foundation
 import ComposableArchitecture
-//import WebServiceInterface
 import WebService
 
 extension DependencyValues {
     var javascriptBridgeService: JavascriptBridgeService {
-        get { self[JavascriptBridgeService.self] }
-        set { self[JavascriptBridgeService.self] = newValue }
+        get { self[JavascriptBridgeServiceWrapper.self] }
+        set { self[JavascriptBridgeServiceWrapper.self] = newValue }
     }
 }
