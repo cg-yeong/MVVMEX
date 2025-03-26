@@ -37,6 +37,9 @@ let project = Project.module(
             ],
             settings: .settings(
                 base: SettingsDictionary()
+                    .merging([
+                        "HEADER_SEARCH_PATHS": "$(SRCROOT)/BridgeLibrary"
+                    ])
                     .swiftObjcBridgingHeaderPath("PublicHeaders/WebService-Bridging-Header.h")
                     .otherLinkerFlags(["$(inherited) -Objc"]),
                 configurations: .init(),

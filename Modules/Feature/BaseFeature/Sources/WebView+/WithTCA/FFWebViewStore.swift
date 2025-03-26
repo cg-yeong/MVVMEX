@@ -11,6 +11,8 @@ import WebKit
 import ComposableArchitecture
 import BaseFeatureInterface
 
+import Dependencies
+extension JavascriptBridgeService
 @Reducer
 public struct FFWebViewStore: Reducer {
 
@@ -53,7 +55,7 @@ public struct FFWebViewStore: Reducer {
             return .none
 
         case .setDelegateBridge(let object):
-            webService.responseDelegate = object
+//            webService.responseDelegate = object
             return .none
 
         }

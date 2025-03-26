@@ -8,6 +8,8 @@
 
 import Foundation
 import ComposableArchitecture
+//import WebServiceInterface
+import WebService
 
 extension DependencyValues {
     var javascriptBridgeService: JavascriptBridgeService {

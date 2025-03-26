@@ -12,9 +12,6 @@ let project = Project.module(
     name: "BaseFeature",
     targets: [
         .interface(module: "BaseFeatureInterface"),
-//        .implements(module: "BaseFeature", dependencies: [
-//            .project(target: "BaseFeatureInterface", path: .relativeToFeature("BaseFeature")),
-//        ]),
         Target.target(
             name: "BaseFeature",
             destinations: [.iPhone],
@@ -22,22 +19,28 @@ let project = Project.module(
             bundleId: "com.yeong.exMVVMC.BaseFeature",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .default,
-            sources: ["Sources/**"],
+            sources: ["Sources/**", "PublicHeaders/**"],
             resources: nil,
 //            headers: .headers(
-//                public: ["PublicHeaders/**"],
-//                private: ["BridgeLibrary/**"],
-//                project: ["BridgeLibrary/**"]
+//                public: ["PublicHeaders/**"]
+////                private: ["BridgeLibrary/**"],
+////                project: ["BridgeLibrary/**"]
 //            ),
             headers: nil,
             scripts: [.swiftLint],
             dependencies: [
                 .project(target: "BaseFeatureInterface", path: .relativeToFeature("BaseFeature")),
-                .package(product: "ComposableArchitecture", type: .runtime)
+                .package(product: "ComposableArchitecture", type: .runtime),
+//                Module.Domain.WebService.toTargetDependency,
+                .project(target: "WebService", path: .relativeToDomain("WebService"))
             ],
             settings: .settings(
                 base: SettingsDictionary()
-                    .swiftObjcBridgingHeaderPath("PublicHeaders/BaseFeature-Bridging-Header.h")
+                    .merging([
+                        "HEADER_SEARCH_PATHS": "$(SRCROOT)/../../Domain/WebService/BridgeLibrary",
+                        "SWIFT_OBJC_BRIDGING_HEADER": "$(SRCROOT)/../../Domain/WebService/PublicHeaders/WebService-Bridging-Header.h"
+                    ])
+//                    .swiftObjcBridgingHeaderPath("PublicHeaders/BaseFeature-Bridging-Header.h")
                     .otherLinkerFlags(["$(inherited) -Objc"]),
                 configurations: .init(),
                 defaultSettings: .recommended

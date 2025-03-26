@@ -40,10 +40,13 @@ let project = Project(
             ],
             settings: .settings(
                 base: .init()
-                    .merging([
-                        "HEADER_SEARCH_PATHS": "$(SRCROOT)/Modules/Feature/BaseFeature/BridgeLibrary",
-                        "SWIFT_OBJC_BRIDGING_HEADER": "$(SRCROOT)/Modules/Feature/BaseFeature/PublicHeaders/BaseFeature-Bridging-Header.h"
-                    ])
+//                    .merging([
+//                        "HEADER_SEARCH_PATHS": "$(SRCROOT)/Modules/Feature/BaseFeature/BridgeLibrary",
+//                        "SWIFT_OBJC_BRIDGING_HEADER": "$(SRCROOT)/Modules/Feature/BaseFeature/PublicHeaders/BaseFeature-Bridging-Header.h"
+
+//                        "HEADER_SEARCH_PATHS": "$(SRCROOT)/Modules/Domain/WebService/BridgeLibrary",
+//                        "SWIFT_OBJC_BRIDGING_HEADER": "$(SRCROOT)/Modules/Domain/WebService/PublicHeaders/WebService-Bridging-Header.h"
+//                    ])
             )
         ),
         .target(

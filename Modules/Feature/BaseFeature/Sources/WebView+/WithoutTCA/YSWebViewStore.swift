@@ -9,6 +9,7 @@
 import SwiftUI
 import BaseFeatureInterface
 import WebKit
+import WebService
 
 public class YSWebViewStore: StoreProtocol {
     public typealias State = WebViewState

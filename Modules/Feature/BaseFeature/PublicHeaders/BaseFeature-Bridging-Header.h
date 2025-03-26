@@ -9,6 +9,7 @@
 #ifndef BaseFeature_Bridging_Header_h
 #define BaseFeature_Bridging_Header_h
 
-#import "WebViewJavascriptBridge.h"
+//#import "WebViewJavascriptBridge.h"
+#import "WebService/WebService-Bridging-Header.h"
 
 #endif /* BaseFeature_Bridging_Header_h */

@@ -13,7 +13,7 @@ import WebServiceInterface
 
 public class JavascriptBridgeService: NSObject {
 
-    weak var responseDelegate: BridgeResponseDelegate? {
+    public weak var responseDelegate: BridgeResponseDelegate? {
         didSet {
             initBridgeHandlers()
         }
