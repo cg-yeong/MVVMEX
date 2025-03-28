@@ -11,6 +11,9 @@ import WebKit
 import UIKit
 import BaseFeatureInterface
 import ComposableArchitecture
+import WebServiceInterface
+import SwiftyJSON
+import AdSupport
 
 public struct FFWebView: UIViewRepresentable {
     public typealias UIViewType = WKWebView
@@ -25,7 +28,7 @@ public struct FFWebView: UIViewRepresentable {
         self.store = store
     }
 
-    @MainActor
+
     public func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView.baseWKWebView
         webView.uiDelegate = context.coordinator
@@ -39,8 +42,9 @@ public struct FFWebView: UIViewRepresentable {
                                      timeoutInterval: 60 * 60 * 10)
             webView.load(request)
         } else {
-            store.send(.registerBridgeHandlers(for: webView, sender: context.coordinator))
             store.send(.onAppear)
+            store.send(.setDelegateBridge(context.coordinator))
+            store.send(.registerBridgeHandlers(for: webView, sender: context.coordinator))
         }
 
         return webView
@@ -48,6 +52,10 @@ public struct FFWebView: UIViewRepresentable {
 
     public func updateUIView(_ webView: WKWebView, context: Context) {
         print("## FFWebViewRepresentable UpdateUIView ##")
+        if store.toLoadURL?.url == nil {
+            print("** webview imsi registerhandler")
+//            store.send(.registerBridgeHandlers(for: webView, sender: context.coordinator))
+        }
         print("## webView.url: \(webView.url)")
         print("## store.toLoadURL: \(store.toLoadURL?.url)")
         if context.coordinator.currentURL != store.toLoadURL?.url {
@@ -78,8 +86,6 @@ public struct FFWebView: UIViewRepresentable {
             self.parent = parent
             self.store = store
             super.init()
-
-            self.store.send(.setDelegateBridge(self))
         }
 
         /// WKNavigation Delegate 페이지 로딩시 네트워크 상태 체크
@@ -88,6 +94,12 @@ public struct FFWebView: UIViewRepresentable {
             // ver.Yeoboya: 개발서버인 경우(://devm), Reachability Cellular, Wifi, 사내망체크API -> true : false(실서버로 이동; Startpage UserDefaults 제거) popup이면 내려주고
             // ver.Honey: get서버리스트[모델] 받아서 뷰 만들어주고 서버이동하면 앱 서버 URL 변경; Userdefaults URL 설정 변경; 로그인데이터 지우기; 앱 재시작;
 
+        }
+
+        public func getAdId(message: JSON, _ callback: (Any?) -> Void) {
+            print("** \(#file) getAdId : \(message)")
+            let adId = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+            print("** \(#file) sendAdId: \(adId)")
         }
     }
 

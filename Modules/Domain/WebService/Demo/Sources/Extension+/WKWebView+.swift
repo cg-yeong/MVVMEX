@@ -40,35 +40,44 @@ public extension WKWebView {
             webView.isInspectable = true
         }
 
-        // MARK: GetUserAgent, PutInformation
-        webView.evaluateJavaScript("navigator.userAgent") { (result, error) in
-            if let result = result as? String {
-                let userAgentString = result
-                let userAgentStr: String = "" //
-                let userAgentDevice: String = "" //
-                let deviceID: String = UIDevice.current.identifierForVendor!.uuidString // 변하지 않게 키체인에서
-                let deviceToken: String = "" // FCM Token or APNS token
-                let appVersion: String = "1.0"
-                let osVersion: String = UIDevice.current.systemVersion
-
-                let userAgnetArray = [
-                    userAgentStr, userAgentDevice, deviceID, deviceToken, appVersion, osVersion
-                ]
-
-                let modelName = "(\(""))" // 디바이스 모델
-                // TODO: Save at UserDefaults
-                let customUserAgent = userAgentString + modelName + userAgnetArray.joined(separator: "|")
-
-//                webView.customUserAgent = customUserAgent
-            } else {
-                print("## WebView에서 UserAgent 가져오지 못했다.: \(error?.localizedDescription ?? "")")
-                let userAgent = UserDefaults.standard.object(forKey: "userAgent") as? String
-                if let userAgent = userAgent {
-//                    webView.customUserAgent = userAgent
-                }
-            }
-        }
+        webView.customUserAgent = putCustomUserAgent(webView)
 
         return webView
     }()
+
+    static var getUserAgent: (WKWebView) -> String = { webView in
+        var result = ""
+        webView.evaluateJavaScript("navigator.userAgent") { (userAgent, error) in
+            if let userAgent = userAgent as? String {
+                result = userAgent
+            } else if let error = error {
+                result = ""
+            } else {
+                result = ""
+            }
+        }
+        return result
+    }
+
+    /// webView.customUserAgent = putCustomUserAgent(webView) // modified
+    static var putCustomUserAgent: (WKWebView) -> String = { webView in
+        let userAgent: String = getUserAgent(webView)
+        let serviceName: String = ""
+        let userDevice: String = ""
+        let deviceID: String = UIDevice.current.identifierForVendor?.uuidString ?? "" //변하지 않게 키체인에서 할수도
+        let deviceToken: String = "" // FCM Token or APNS token
+        let appVersion: String = ""
+        let osVersion: String = UIDevice.current.systemVersion
+
+        let modifyArray = [
+            serviceName, userDevice, deviceID, deviceToken, appVersion, osVersion
+        ]
+        let modelName = "(\(UIDevice.modelName))"
+
+        let modified = userAgent.contains(serviceName) ? userAgent : userAgent + modelName + modifyArray.joined(separator: "|")
+
+        print("## CustomUserAgent: \(modified)")
+        UserDefaults.standard.register(defaults: ["UserAgent": modified])
+        return modified
+    }
 }
